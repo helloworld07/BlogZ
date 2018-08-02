@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>welcome</title>
+</head>
+<script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function (){
+        $.ajax({
+            url:'/page/getinfo',
+            type:'POST',
+            success:function (result) {
+                $("#d1").html(result);
+            }
+        })
+    });
+</script>
+<body>
+    welcome!
+    <div id="d1"></div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <title>用户登录</title>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <style>
+        body {
+            background-color: #96b97d;
+        }
+
+        .mycenter {
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            width: 600px;
+            padding: 5%;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+        .mycenter mysign {
+            width: 600px;
+        }
+
+        .mycenter input, checkbox {
+            margin-top: 5%;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .mycenter button {
+            margin-top: 15%;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .mycheckbox {
+            margin-top: 10px;
+            margin-left: 40%;
+            margin-bottom: 10px;
+            height: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        function check() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            if(username == ''){
+                alert("请输入用户名！")
+                return false;
+            }else if (password == ''){
+                alert("请输入密码！")
+                return false;
+            }
+                $.ajax({
+                    url:'/page/check',
+                    type:'POST',
+                    data:{username:username,password:password},
+                    success:function (result) {
+                        if(result.flag == true){
+                            window.location.href="welcome.html"
+                        } else {
+                            $("#d1").html(result.info);
+                        }
+                    }
+                })
+        }
+    </script>
+</head>
+<body>
+<form id="from">
+    <div class="mycenter">
+        <div class="mysign">
+            <div class="col-lg-11 text-center text-info">
+                <h2>
+                    welcome to BlogZ</h2>
+            </div>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="username" name="username" placeholder="请输入账户名" required
+                       autofocus/>
+            </div>
+            <div class="col-lg-10">
+            </div>
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required
+                       autofocus/>
+            </div>
+            <div class="col-lg-10">
+            </div>
+           <!-- <div class="col-lg-10 mycheckbox checkbox">
+                <input type="checkbox" class="col-lg-1">记住密码</input>
+            </div>-->
+            <div>
+                <div class="col-lg-11 text-center" style="color: red;"><h7 id="d1">&nbsp</h7></div>
+            </div>
+            <div class="col-lg-10">
+            </div>
+            <div class="col-lg-10">
+                <button type="button" id="btn" class="btn btn-success col-lg-12" onclick="check()">
+                    登录
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
