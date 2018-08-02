@@ -35,7 +35,7 @@
         }
 
         .mycenter button {
-            margin-top: 15%;
+            margin-top: 5%;
             margin-left: 10%;
             margin-right: 10%;
         }
@@ -64,13 +64,15 @@
                     data:{username:username,password:password},
                     success:function (result) {
                         if(result.flag == true){
-                            window.location.href="welcome.html"
+                            window.location.href="loginAfter.html"
                         } else {
                             $("#d1").html(result.info);
                         }
                     }
                 })
         }
+
+
     </script>
 </head>
 <body>
@@ -104,6 +106,11 @@
             <div class="col-lg-10">
                 <button type="button" id="btn" class="btn btn-success col-lg-12" onclick="check()">
                     登录
+                </button>
+            </div>
+            <div class="col-lg-10">
+                <button type="button" id="btn1" class="btn form-control" onclick="location='register.html'">
+                    注册
                 </button>
             </div>
         </div>
