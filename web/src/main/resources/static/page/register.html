@@ -14,7 +14,7 @@
         }
 
         .mycenter {
-            margin-top: 100px;
+            margin-top: 0px;
             margin-left: auto;
             margin-right: auto;
             height: 350px;
@@ -54,32 +54,106 @@
         }
     </style>
     <script type="text/javascript">
+        var nameflag = false;
+        var pwdflag = false;
+        var emailfalg = false;
         function checkname() {
             var username = document.getElementById("username").value;
             $.ajax({
-                url:'',
-                type:'POST',
-                data:{username:username},
-                success:function (result) {
-                    
-                }
-            })
-        }
-        function check() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            $.ajax({
-                url: '/page/check',
+                url: '/register/checkname',
                 type: 'POST',
-                data: {username: username, password: password},
+                data: {username: username},
                 success: function (result) {
-                    if (result.flag == true) {
-                        window.location.href = "loginAfter.html"
-                    } else {
-                        $("#d1").html(result.info);
+                    if (result.flag == false) {
+                        $("#tipname").html(result.info);
+                        $("#tipname").css("color","#F736ED");
+                    }else {
+                        $("#tipname").html(result.info);
+                        $("#tipname").css("color","#94F71B");
+                        nameflag = true;
                     }
                 }
             })
+        }
+        
+        function checkpwd() {
+            var reg = /^[A-Za-z0-9]{9,20}$/;
+            var password = document.getElementById("password").value;
+            if (password == ""){
+                $("#tippwd").html("请输入密码！");
+                $("#tippwd").css("color","#F736ED");
+            }else if (!reg.test(password)){
+                $("#tippwd").html("请输入大于8位小于20位的字母与数字组合！");
+                $("#tippwd").css("color","#F736ED");
+            }else{
+                $("#tippwd").html("密码可使用！");
+                $("#tippwd").css("color","#94F71B");
+            }
+        }
+        
+        function checkpwdaga() {
+            var password = document.getElementById("password").value;
+            var pwdcheck = document.getElementById("pwdcheck").value;
+            if (password == pwdcheck){
+                $("#pwdaga").html("输入密码正确！");
+                $("#pwdaga").css("color","#94F71B");
+                pwdflag =true;
+            }else{
+                $("#pwdaga").html("两次输入密码不一致！");
+                $("#pwdaga").css("color","#F736ED");
+            }
+        }
+        
+        function checkemail() {
+            var email = document.getElementById("email").value;
+            var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+            if (!reg.test(email)) {
+                $("#tipemail").html("请输入正确的邮箱！");
+                $("#tipemail").css("color", "#F736ED");
+            } else {
+                $("#tipemail").html("邮箱可使用！");
+                $("#tipemail").css("color", "#94F71B");
+                emailfalg =true;
+            }
+        }
+
+        function checktel() {
+            var telnum = document.getElementById("telnum").value;
+            var reg = /1\d{10}$/;
+            if (!reg.test(telnum)) {
+                $("#tiptel").html("请输入正确的手机号码！");
+                $("#tiptel").css("color", "#F736ED");
+            } else {
+                $("#tiptel").html("号码可使用！");
+                $("#tiptel").css("color", "#94F71B");
+            }
+        }
+
+        function checkall() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+            var nickname = document.getElementById("nickname").value;
+            var telnum = document.getElementById("telnum").value;
+            var sex = $("input[name='optionsRadiosinline']:checked").val();
+            if (nameflag ==true && pwdflag==true && emailfalg==true){
+                $.ajax({
+                    url: '/register/adduser',
+                    type: 'POST',
+                    data: {username: username, password: password,email:email,nickname:nickname,telnum:telnum,sex:sex},
+                    success: function (result) {
+                        if (result.flag == true) {
+                            alert("恭喜您，注册成功！");
+                            window.location.href = "../page/login";
+                        } else {
+                            alert("抱歉，注册出现问题，请重新注册！");
+                            window.location.href = "register.html";
+                        }
+                    }
+                })
+            }else{
+                alert("请按提示填写正确的注册信息！")
+            }
         }
     </script>
 </head>
@@ -90,51 +164,52 @@
             <div class="col-lg-11 text-center text-info">
                 <h2>用户注册</h2>
             </div>
+
             <div class="col-lg-10">
                 <input type="text" class="form-control" id="username" name="username" placeholder="请输入登录使用名称"
                        onblur="checkname()"
                        required
                        autofocus/>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-10 text-center" id="tipname">&nbsp
             </div>
             <div class="col-lg-10">
-                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码"
+                <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" onblur="checkpwd()"
                        required
                        autofocus/>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-10 text-center" id="tippwd">&nbsp
             </div>
             <div class="col-lg-10">
-                <input type="password" class="form-control" id="pwdcheck" name="pwdcheck" placeholder="请再次输入密码"
+                <input type="password" class="form-control" id="pwdcheck" name="pwdcheck" placeholder="请再次输入密码" onblur="checkpwdaga()"
                        required
                        autofocus/>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-10 text-center" id="pwdaga">&nbsp
             </div>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="email" name="email" placeholder="请输入您的邮箱地址"/>
+                <input type="text" class="form-control" id="email" name="email" placeholder="请输入您的邮箱地址" onblur="checkemail()"/>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-10 text-center" id="tipemail">&nbsp
             </div>
             <div class="col-lg-10">
                 <input type="text" class="form-control" id="nickname" name="nickname" placeholder="请输入您的昵称"/>
             </div>
-            <div class="col-lg-10">
-            </div>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="telnum" name="telnum" placeholder="请输入您的电话号码"/>
-            </div>
             <div class="col-lg-10">&nbsp
+            </div>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="telnum" name="telnum" placeholder="请输入您的电话号码" onblur="checktel()"/>
+            </div>
+            <div class="col-lg-10 text-center" id="tiptel">&nbsp
             </div>
             <div class="col-lg-10" align="center">
                 <label class="radio-inline">
-                    <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked>男
+                    <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="1" checked>男
                 </label>
                 <div class="radio-inline">&nbsp
                 </div>
                 <label class="radio-inline">
-                    <input type="radio" name="optionsRadiosinline" id="optionsRadios4" value="option2">女
+                    <input type="radio" name="optionsRadiosinline" id="optionsRadios4" value="0">女
                 </label>
             </div>
 
@@ -142,7 +217,7 @@
             </div>
             <div class="col-lg-10">
                 <div class="col-lg-5">
-                    <button type="button" id="btn" class="btn btn-success col-lg-12" onclick="check()">
+                    <button type="button" id="btn" class="btn btn-success col-lg-12" onclick="checkall()">
                         注册
                     </button>
                 </div>
@@ -152,6 +227,7 @@
                     </button>
                 </div>
             </div>
+
         </div>
     </div>
 </form>

@@ -15,5 +15,5 @@ public interface LoginMapper {
 
     @Select("select * from usertab where username=#{username} and password=#{password}")
     List<Userinfo> check(@Param("username") String username, @Param("password") String password);
-    //sql没有执行，到checkf方法就报错了。但test方法正常？
+
 }
