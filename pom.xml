@@ -12,6 +12,8 @@
     <modules>
         <module>login</module>
         <module>web</module>
+        <module>commen</module>
+        <module>blog</module>
     </modules>
 
     <parent>

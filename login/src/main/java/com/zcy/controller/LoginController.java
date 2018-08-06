@@ -39,10 +39,12 @@ public class LoginController {
                 r.setInfo("用户名或密码错误！");
             }else {
                 Userinfo userinfo = list.get(0);
-                String nickname = userinfo.getNickname();
+                request.getSession().setAttribute("userinfo",userinfo);
+                r.setFlag(true);
+                /*String nickname = userinfo.getNickname();
                 r.setFlag(true);
                 //r.setInfo("欢迎登录"+nickname);
-                request.getSession().setAttribute("nickname", nickname);
+                request.getSession().setAttribute("nickname", nickname);*/
             }
             return r;
         }
@@ -54,8 +56,23 @@ public class LoginController {
     //登录成功后跳转获取用户信息
     @RequestMapping("/getinfo")
     @ResponseBody
-    public String getinfo(HttpServletRequest request, ModelMap modelMap){
-        String nickname = (String) request.getSession().getAttribute("nickname");
-        return nickname;
+    public ReturnInfo getinfo(ReturnInfo r,HttpServletRequest request, ModelMap modelMap){
+        Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        if (userinfo == null){
+            r.setFlag(false);
+            r.setInfo("请登录~");
+        }else {
+            String nickname = userinfo.getNickname();
+            r.setFlag(true);
+            r.setInfo(nickname);
+        }
+        return r;
+    }
+
+    //注销登录
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();//清除 session 中的所有信息
+        return "redirect:/page/blogpage.html";
     }
 }
