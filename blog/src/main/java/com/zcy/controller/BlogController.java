@@ -2,6 +2,7 @@ package com.zcy.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.zcy.domain.BlogInfo;
+import com.zcy.domain.ClassifyInfo;
 import com.zcy.domain.Userinfo;
 import com.zcy.service.BlogService;
 import com.zcy.utils.ReturnInfo;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,8 +24,9 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    //获取文章列表
     @RequestMapping("/getpaper")
-    public ReturnInfo getpaper(ReturnInfo r, HttpServletRequest request, ModelMap modelMap,int pageNum,int pageSize){
+    public ReturnInfo getpaper(ReturnInfo r, HttpServletRequest request, ModelMap modelMap, int pageNum, int pageSize) {
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
         /*if (userinfo!=null) {
             String author = userinfo.getUsername();
@@ -46,4 +49,35 @@ public class BlogController {
         r.setList(list);
         return r;
     }
+
+    //获取文章分类
+    @RequestMapping("/getclassify")
+    public ReturnInfo getClassify(ReturnInfo r) {
+        List<ClassifyInfo> list = blogService.getClassify();
+        r.setList(list);
+        return r;
+    }
+
+    //提交博客
+    @RequestMapping("/commmitblog")
+    public ReturnInfo commitBlog(ReturnInfo r, String title, String content, String flag, String classify, HttpServletRequest request) {
+        Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        if (userinfo == null) {
+            r.setFlag(false);
+            r.setInfo("您还没有登录，请登录后再提交！");
+            return r;
+        }
+        String author = userinfo.getNickname();
+        String pubtime = LocalDateTime.now().toString();
+        int count = blogService.commitBlog(title, content, pubtime, flag, author, classify);
+        if (count < 1) {
+            r.setFlag(false);
+            r.setInfo("保存博客失败，请重新提交！");
+            return r;
+        }
+        r.setFlag(true);
+        r.setInfo("保存成功！");
+        return r;
+    }
+
 }

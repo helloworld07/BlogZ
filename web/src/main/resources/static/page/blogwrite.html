@@ -21,8 +21,11 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <link href="../toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../toastr/toastr.js" ></script>
 </head>
 <script type="text/javascript">
+
     //加载用户名
     $(function () {
         $.ajax({
@@ -32,12 +35,111 @@
                 if (result.flag == false) {
                     $("#l1").html("<a href='../page/login'>" + result.info + "</a>");
                     l2.style.visibility = 'hidden';
+                    toastr.error('您还没有登录，登录后才可提交博客~');
                 } else {
                     $("#l1").html("<a href=''>" + result.info + "</a>");
                 }
             }
         })
     });
+
+    //加载分类
+    $(function () {
+        var obj = document.getElementById('classify');
+        obj.options.length = 0;
+        $.ajax({
+            type: "POST",
+            url: "/blog/getclassify",
+            success: function (result) {
+                //console.log(result.list[0]);
+                if (result.list.length > 0) {
+                    obj.add(new Option("请选择", ""));
+                    for (var i in result.list) {
+                        var selectOption = new Option(result.list[i].name, result.list[i].id);
+                        obj.add(selectOption);
+                    }
+                }
+            }
+        });
+    });
+    
+    function submitblog() {
+        var title = document.getElementById("title").value;
+        var content = UE.getEditor('contentblog').getContent();
+        var flag = document.getElementById("onlyself");
+        var classify = $('#classify option:selected') .val();
+        if (flag.checked){
+            flag = 1;
+        }else{
+            flag = 0;
+        }
+        var input  = /^[\s]*$/;
+        if (input.test(title)){
+            toastr.warning("请填写标题");
+            return false;
+        }
+        if (classify==""){
+            toastr.warning("请选择类型");
+            return false;
+        }
+        $.ajax({
+            url: '/blog/commmitblog',
+            type: 'POST',
+            data:{title:title,content:content,flag:flag,classify:classify},
+            success:function (result) {
+                if (result.flag == false) {
+                    toastr.error(result.info);
+                    return false;
+                } else {
+                    toastr.success(result.info+"  3秒后自动跳转");
+                    setTimeout(waitthree, 3000);
+                }
+            }
+        })
+    }
+    
+    function waitthree() {
+        window.location.href = '../page/blogpage.html'
+    }
+</script>
+<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+<script id="editor" type="text/plain" name="gdesc" style="width:100%;height:350px;"></script>
+<script type="text/javascript">
+//实例化编辑器
+var ue = UE.getEditor('contentblog', {
+    toolbars: [
+        [
+            'undo', //撤销
+            'bold', //加粗
+            'underline', //下划线
+            'preview', //预览
+            'horizontal', //分隔线
+            'inserttitle', //插入标题
+            'cleardoc', //清空文档
+            'fontfamily', //字体
+            'fontsize', //字号
+            'paragraph', //段落格式
+            'simpleupload', //单图上传
+            'insertimage', //多图上传
+            'attachment', //附件
+            'music', //音乐
+            'inserttable', //插入表格
+            'emotion', //表情
+            'insertvideo', //视频
+            'justifyleft', //居左对齐
+            'justifyright', //居右对齐
+            'justifycenter', //居中对
+            'justifyjustify', //两端对齐
+            'forecolor', //字体颜色
+            'fullscreen', //全屏
+            'edittip ', //编辑提示
+            'customstyle', //自定义标题
+            'template', //模板
+        ]
+    ]
+});
 </script>
 <body>
 <div class="container">
@@ -72,54 +174,27 @@
     </div>
 
     <form id="edit-profile" class="form-horizontal" role="form">
+
         <div class="form-actions">
             <div for="title"><h3><strong>标题 ：</strong></h3></div>
             <input type="text" class="input-xxlarge" id="title" placeholder="此处输入您的标题名称">
         </div>
-        <div class="divider"></div>
-        <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
-        <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.min.js"></script>
-        <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
-        <script id="editor" type="text/plain" name="gdesc" style="width:100%;height:350px;"></script>
-        <script type="text/javascript">
-        //实例化编辑器
-        var ue = UE.getEditor('editor', {
-            toolbars: [
-                [
-                    'undo', //撤销
-                    'bold', //加粗
-                    'underline', //下划线
-                    'preview', //预览
-                    'horizontal', //分隔线
-                    'inserttitle', //插入标题
-                    'cleardoc', //清空文档
-                    'fontfamily', //字体
-                    'fontsize', //字号
-                    'paragraph', //段落格式
-                    'simpleupload', //单图上传
-                    'insertimage', //多图上传
-                    'attachment', //附件
-                    'music', //音乐
-                    'inserttable', //插入表格
-                    'emotion', //表情
-                    'insertvideo', //视频
-                    'justifyleft', //居左对齐
-                    'justifyright', //居右对齐
-                    'justifycenter', //居中对
-                    'justifyjustify', //两端对齐
-                    'forecolor', //字体颜色
-                    'fullscreen', //全屏
-                    'edittip ', //编辑提示
-                    'customstyle', //自定义标题
-                    'template', //模板
-                ]
-            ]
-        });
-        </script>
+
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">保存</button>
-            <button class="btn">取消</button>
-            <input type="checkbox"> 仅自己可见
+            <div id="contentblog" style="height: 400px; margin: inherit"></div>
+        </div>
+
+        <div class="form-actions">
+                <label>分类:</label>
+                <select name="classify" id="classify">
+                    <option value="">请选择</option>
+                </select>
+        </div>
+        <div class="form-actions">
+            <a type="submit" class="btn btn-primary" onclick="submitblog()">提交</a>
+            <a class="btn" onclick="location='../page/blogpage.html'">取消</a>
+            <input type="checkbox" id="onlyself" value="1"> 仅自己可见
+
         </div>
     </form>
 </div>
