@@ -9,6 +9,7 @@ import com.zcy.utils.ReturnInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,4 +81,9 @@ public class BlogController {
         return r;
     }
 
+
+    @RequestMapping(value = "/ueditor")
+    public String ueditor(HttpServletRequest request) {
+        return "/static/ueditor/jsp/config.json";
+    }
 }

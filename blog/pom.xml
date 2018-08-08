@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>web</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>blog</artifactId>
     <packaging>jar</packaging>
+    <version>0.0.1-SNAPSHOT</version>
 
-    <name>web</name>
-    <description>Application web</description>
+    <name>blog</name>
+    <description>Blog module</description>
 
     <parent>
         <groupId>com.zcy</groupId>
@@ -17,7 +17,17 @@
     </parent>
 
     <dependencies>
-        <!--模块依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.zcy</groupId>
             <artifactId>login</artifactId>
@@ -25,29 +35,14 @@
         </dependency>
         <dependency>
             <groupId>com.zcy</groupId>
-            <artifactId>blog</artifactId>
+            <artifactId>commen</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--热部署-->
+        <!--pagehelper分页插件-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!--UEditor依赖的jar包 -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.9</version>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
         </dependency>
     </dependencies>
 
