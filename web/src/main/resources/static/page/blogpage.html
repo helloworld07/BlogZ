@@ -23,8 +23,9 @@
     <script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
 </head>
 <script type="text/javascript">
-    //加载用户名
+    //初始化
     $(function () {
+        //加载用户名
         $.ajax({
             url: '/page/getinfo',
             type: 'POST',
@@ -34,29 +35,36 @@
                     l2.style.visibility = 'hidden';
                 } else {
                     $("#l1").html("<a href=''>" + result.info + "</a>");
+                    classifyli +="<li id='li4'><a href='#' onclick='classify(4)'><i class='icon-lock'></i>  私密</a></li>";
                 }
             }
-        })
+        });
+        //初始化文章列表
+        getpaper(pageNum,classifyidall);
+        //初始化文章分类
+        paperclass();
     });
 
+    //获取文章列表和分页信息
     var pageNum= 1;
     var pageSize =5;
     var pagenext;
-    var pageper;
+    var pagepre;
     var firstpage;
     var endpage;
-    function getpaper(pageNum) {
+    function getpaper(pageNum,classifyidall) {
         $.ajax({
             url: '/blog/getpaper',
             type: 'POST',
-            data: {pageNum:pageNum,pageSize:pageSize},
+            data: {pageNum:pageNum,pageSize:pageSize,classify:classifyidall},
             success: function (result) {
                 console.log(result);
                 pagenext = result.pageinfo.nextPage;
-                pageper = result.pageinfo.prePage;
+                pagepre = result.pageinfo.prePage;
                 firstpage = result.pageinfo.firstPage;
                 endpage = result.pageinfo.lastPage;
                 var pageno = result.pageinfo.pageNum;
+                var pages = result.pageinfo.pages;
                 for (var i in result.list) {
                     var d = new Date(result.list[i].pubtime);
                     var year = d.getFullYear();
@@ -69,29 +77,38 @@
                         "发布于： <em id='buptime'>" + year + "." + month + "." + day + "</em></span></li>";
                 }
                 $("#l3").html(group);
+                group = "";//flush();
                 $("#s1").html(pageno);
-                $("#a1").attr("href","../page/blogpage.html?page="+pagenext);
-                $("#a2").attr("href","../page/blogpage.html?page="+pageper);
-                $("#a3").attr("href","../page/blogpage.html?page="+firstpage);
-                $("#a4").attr("href","../page/blogpage.html?page="+endpage);
+                $("#s2").html(pages);
+                $("#a1").attr("onclick","pageset("+pagenext+")");
+                $("#a2").attr("onclick","pageset("+pagepre+")");
+                $("#a3").attr("onclick","pageset("+firstpage+")");
+                $("#a4").attr("onclick","pageset("+endpage+")");
+                for(var i=4;i<8;i++){
+                    $("#l"+i).attr("class","");
+                }
                 if (pagenext==0){
                     $("#l6").attr("class","active");
                     $("#l7").attr("class","active");
-                    $("#a1").attr("href","JavaScript:void(0)");
-                    $("#a4").attr("href","JavaScript:void(0)");
+                    $("#a1").attr("onclick","");
+                    $("#a4").attr("onclick","");
                 }
-                if (pageper==0){
+                if (pagepre==0){
                     $("#l4").attr("class","active");
                     $("#l5").attr("class","active");
-                    $("#a2").attr("href","JavaScript:void(0)");
-                    $("#a3").attr("href","JavaScript:void(0)");
+                    $("#a2").attr("onclick","");
+                    $("#a3").attr("onclick","");
                 }
             }
         })
     }
-    //加载文章信息
+    //加载分页文章信息
     var group = '';
-    $(function () {
+    function pageset(pageNum) {
+        getpaper(pageNum,classifyidall)
+    }
+    //由原url参数分页改为局部刷新分页
+    /*$(function () {
         //用于分页取参
         var url = location.search;
         if (url.indexOf("?") != -1) {
@@ -101,8 +118,39 @@
                 pageNum = strs[i].split("=")[1];
             }
         }
-        getpaper(pageNum);
-    });
+        getpaper(pageNum,classifyidall);
+    });*/
+
+    //加载文章分类
+    var classifyli='';
+    function paperclass() {
+        $.ajax({
+            type: "POST",
+            url: "/blog/getclassify",
+            success: function (result) {
+                //console.log(result.list[0]);
+                if (result.list.length > 0) {
+                    for (var i in result.list) {
+                        classifyli += "<li id='li"+result.list[i].id+"'><a href='#' onclick='classify("+result.list[i].id+")'><i class='"+result.list[i].icon+"'></i> "+ result.list[i].name+"</a></li>";
+                    }
+                    $("#u1").html(classifyli);
+                    classifyli="";
+                }
+            }
+        });
+    }
+
+    //文章分类
+    var classifyidall;
+    function classify(classifyid) {
+        classifyidall = classifyid;
+        //flush,10个为写死的数据
+        for (var i=1;i<10;i++) {
+            $("#li" + i).attr("class", "");
+        }
+        $("#li"+classifyidall).attr("class","active");
+        getpaper(1,classifyidall);
+    }
 </script>
 <body>
 <div class="container">
@@ -175,18 +223,17 @@
                     <li class="nav-header">
                         分类
                     </li>
-                    <li class="active">
-                        <a href=""><i class="icon-white icon-time"></i> 技术</a>
-                    </li>
-                    <li>
-                        <a href=""><i class="icon-folder-open"></i> 分享</a>
-                    </li>
-                    <li>
-                        <a href=""><i class="icon-th"></i> 杂文</a>
-                    </li>
+                    <div>
+                        <ul class="nav nav-list" id="u1">
+
+                        </ul>
+                    </div>
+                    <li class="divider">
                     <li class="nav-header">
                         个人
                     </li>
+                    <div>
+                        <ul class="nav nav-list" id="u2">
                     <li>
                         <a href=""><i class="icon-user"></i> 个人信息</a>
                     </li>
@@ -196,11 +243,14 @@
                     <li>
                         <a href="../page/blogwrite.html"><i class="icon-pencil"></i>写博客</a>
                     </li>
+                        </ul>
+                    </div>
                     <li class="divider">
                     </li>
                     <li>
                         <a href=""><i class="icon-info-sign"></i> 帮助</a>
                     </li>
+                    <li class="divider">
                     <li class="nav-header">
                         联系我们
                     </li>
@@ -220,19 +270,19 @@
             <div class="pagination pagination-right">
                 <ul id="ul1">
                     <li id="l4">
-                        <a id="a3">最前页</a>
+                        <a href="#" id="a3">最前页</a>
                     </li>
                     <li id="l5">
-                        <a id="a2">上一页</a>
+                        <a href="#" id="a2">上一页</a>
                     </li>
                     <li>
-                        <a>第<span id="s1"></span>页</a>
+                        <a>第<span id="s1"></span>/<span id="s2"></span>页</a>
                     </li>
                     <li id="l6">
-                        <a id="a1">下一页</a>
+                        <a href="#" id="a1">下一页</a>
                     </li>
                     <li id="l7">
-                        <a id="a4">最后页</a>
+                        <a href="#" id="a4">最后页</a>
                     </li>
                 </ul>
             </div>

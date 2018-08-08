@@ -1,4 +1,5 @@
 /* 前后端通信相关的配置,注释只允许使用多行方式 */
+/*这部分类容适用于传统的ssm等aciton,jsp的方式，springboot在方法里进行了配置。*/
 {
     /* 上传图片配置项 */
     "imageActionName": "uploadimage", /* 执行上传图片的action名称 */

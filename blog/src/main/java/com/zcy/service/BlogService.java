@@ -18,9 +18,9 @@ public class BlogService {
     private BlogMapper blogMapper;
 
     //文章列表
-    public List<BlogInfo> getpaper(String author,int pageNum, int pageSize){
+    public List<BlogInfo> getpaper(String classify,int pageNum, int pageSize){
         PageHelper.startPage(pageNum, pageSize);
-        List<BlogInfo> list = blogMapper.getpaper(author);
+        List<BlogInfo> list = blogMapper.getpaper(classify);
         return list;
     }
 
@@ -31,8 +31,15 @@ public class BlogService {
     }
 
     //提交博客
-    public int commitBlog(String title,String content,String pubtime,String flag,String author,String classify){
-        int count = blogMapper.commitBlog(title,content,pubtime,flag,author,classify);
+    public int commitBlog(String title,String content,String pubtime,String flag,String author,int userid,String classify){
+        int count = blogMapper.commitBlog(title,content,pubtime,flag,author,userid,classify);
         return count;
+    }
+
+    //私密文章
+    public List<BlogInfo> getlockpaper(int userid,int pageNum, int pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<BlogInfo> list = blogMapper.getlockpaper(userid);
+        return list;
     }
 }

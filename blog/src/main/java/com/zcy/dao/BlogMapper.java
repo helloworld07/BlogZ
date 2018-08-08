@@ -19,15 +19,19 @@ public interface BlogMapper {
     @Select({"<script>",
             "SELECT * FROM paper",
             "WHERE 1=1",
-            "<when test='author!=null'>",
-            "AND author = #{author}",
+            "<when test='classify!=null'>",
+            "AND classify = #{classify}",
             "</when>",
+            "and flag = '0'",
             "</script>"})
-    List<BlogInfo> getpaper(@Param("author") String author);
+    List<BlogInfo> getpaper(@Param("classify") String classify);
 
-    @Select("select id,name from classify")
+    @Select("select id,name,icon from classify")
     List<ClassifyInfo> getClassify();
 
-    @Insert("insert into paper (title,content,pubtime,flag,author,classify) values (#{title},#{content},#{pubtime},#{flag},#{author},#{classify})")
-    int commitBlog(@Param("title") String title,@Param("content")String content,@Param("pubtime") String pubtime,@Param("flag")String flag,@Param("author")String author,@Param("classify") String classify);
+    @Insert("insert into paper (title,content,pubtime,flag,author,userid,classify) values (#{title},#{content},#{pubtime},#{flag},#{author},#{userid},#{classify})")
+    int commitBlog(@Param("title") String title,@Param("content")String content,@Param("pubtime") String pubtime,@Param("flag")String flag,@Param("author")String author,@Param("userid")int userid,@Param("classify") String classify);
+
+    @Select("select * from paper where flag = '1' and userid = #{userid}")
+    List<BlogInfo> getlockpaper(@Param("userid")int userid);
 }

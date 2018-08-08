@@ -14,11 +14,12 @@
         博客主页：画模板，规划板块（核心不在多，拥有可扩展性，预留空间）
             首页模块
             博客文章 : 文章列表页+分页ajax √
-                       文章分类栏后台自动获取
+                       文章分类栏后台自动获取，分类分页功能完整 √
+                       文章私密隐藏
                        文章详细界面
                        博客编写页面：基本功能 √ 
                                     UEditor设置
-                       blog和commet模块在库里有点问题，文件没有提交全。
+                       
 
 
 
@@ -32,6 +33,10 @@
     并不是很利于后期的维护和更改，比较麻烦，html不能用jsp的${}造成了很多困扰
 7.添加了pagehelper分页插件，需要依赖、配置文件、service层和controller层多加代码，页面实现控制:
     页面用的ajax分页，好麻烦
-8.引入了ueditor富文本编辑空间，官网上说不要用于生产环境~~，功能很多(static文件夹)
+8.引入了ueditor富文本编辑空间，官网上说不要用于生产环境~~，功能很多(static文件夹)，
+    与springboot结合得并不是那么完美，需要手动写不少文件：https://www.cnblogs.com/liter7/p/7745606.html
+    主要用到：config.json(springboot中用在了BlogConroller里)、ueditor.config.js(配置加载config.json)、BlogController.java、blogwrite.html(配置请求路径)
 9.引入toastr提示控件(static文件夹)，需结合jquery,且在jquery后使用,在blogwrite.html中有使用
-10.`
+10.springboot在每次启动后都会在本地重新创建路径，这一点对图片想保持到项目来说不好办啊，如果需要部署服务器，上传和显示图片
+    方面还得改路径
+11.全局项目用的session传递用户信息`
