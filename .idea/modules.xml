@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/BlogZ.iml" filepath="$PROJECT_DIR$/BlogZ.iml" />
       <module fileurl="file://$PROJECT_DIR$/blog/blog.iml" filepath="$PROJECT_DIR$/blog/blog.iml" />
       <module fileurl="file://$PROJECT_DIR$/commen/commen.iml" filepath="$PROJECT_DIR$/commen/commen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/home/home.iml" filepath="$PROJECT_DIR$/home/home.iml" />
       <module fileurl="file://$PROJECT_DIR$/login/login.iml" filepath="$PROJECT_DIR$/login/login.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>

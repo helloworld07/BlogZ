@@ -34,4 +34,7 @@ public interface BlogMapper {
 
     @Select("select * from paper where flag = '1' and userid = #{userid}")
     List<BlogInfo> getlockpaper(@Param("userid")int userid);
+
+    @Select("select * from paper where id = #{id}")
+    List<BlogInfo> getpaperdetail(@Param("id") int id);
 }

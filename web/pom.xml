@@ -28,6 +28,11 @@
             <artifactId>blog</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.zcy</groupId>
+            <artifactId>home</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!--热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

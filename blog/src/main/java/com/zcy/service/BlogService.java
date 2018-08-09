@@ -42,4 +42,10 @@ public class BlogService {
         List<BlogInfo> list = blogMapper.getlockpaper(userid);
         return list;
     }
+
+    //获取文章详情
+    public List<BlogInfo> getpaperdetail(int id){
+        List<BlogInfo> list = blogMapper.getpaperdetail(id);
+        return list;
+    }
 }

@@ -71,7 +71,7 @@
                     var month = d.getMonth() + 1;
                     var day = d.getDate();
                     //console.log(new Date(result.list[i].pubtime));
-                    group += "<li>&nbsp</li><li><i class='icon-file'></i><h2 class='title' href='#' id='title'><h4>" + result.list[i].title + "</h4></a>" +
+                    group += "<li>&nbsp</li><li><a class='title' href='/detail/page?id="+result.list[i].id+"' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
                         "<p class='messages' href='#' id='content'>" + result.list[i].content.substring(0, 200) + "......" + "</p>" +
                         "<span class='meta'>发布者： <em id='author'>" + result.list[i].author + "</em> &nbsp; &nbsp;| &nbsp; &nbsp;" +
                         "发布于： <em id='buptime'>" + year + "." + month + "." + day + "</em></span></li>";
@@ -159,11 +159,11 @@
             <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span
                         class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a
-                    class="brand" href="">BlogZ</a>
+                    class="brand" href="/home/page">BlogZ</a>
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li>
-                            <a href="">首页</a>
+                            <a href="/home/page">首页</a>
                         </li>
                         <li class="active">
                             <a href="blogpage.html">博客</a>
