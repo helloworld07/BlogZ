@@ -36,7 +36,7 @@
     $(function () {
         $('#myCarousel').carousel({
             //设置自动播放 每图3 秒
-            interval: 5000,
+            interval: 5000
         });
     });
 </script>
@@ -53,7 +53,7 @@
 </style>
 <body>
     <!--首页内容-->
-    <div id="myCarousel" class="carousel slide">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-pause="false">
         <!-- 轮播（Carousel）指标 -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -61,7 +61,7 @@
             <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
         <!-- 轮播（Carousel）项目 -->
-        <div class="carousel-inner">
+        <div class="carousel-inner" >
             <div class="item active">
                 <a href="#"><img src="../carouselimgs/1.jpg" alt="First slide"></a>
                 <div class="carousel-caption">标题 </div>

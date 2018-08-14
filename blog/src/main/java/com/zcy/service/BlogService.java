@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.zcy.dao.BlogMapper;
 import com.zcy.domain.BlogInfo;
 import com.zcy.domain.ClassifyInfo;
+import com.zcy.domain.CommentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,18 @@ public class BlogService {
     public List<BlogInfo> getpaperdetail(int id){
         List<BlogInfo> list = blogMapper.getpaperdetail(id);
         return list;
+    }
+
+    //获取文章评论
+    public List<CommentInfo> getcomment(int id,int pageNum, int pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<CommentInfo> list = blogMapper.getcomment(id);
+        return list;
+    }
+
+    //新增评论
+    public int addComment(int paperid ,String content, String pubid){
+        int count = blogMapper.addComment(paperid, content, pubid);
+        return count;
     }
 }

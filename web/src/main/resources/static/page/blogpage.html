@@ -80,10 +80,10 @@
                     var month = d.getMonth() + 1;
                     var day = d.getDate();
                     //console.log(new Date(result.list[i].pubtime));
-                    group += "<li>&nbsp</li><li><a class='title' href='/detail/page?id="+result.list[i].id+"' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
+                    group += "<li>&nbsp</li><li><a class='title' target='_blank' href='/detail/page?id="+result.list[i].id+"' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
                         "<p class='messages' href='#' id='content'>" + result.list[i].content.substring(0, 200) + "......" + "</p>" +
                         "<span class='meta'>发布者： <em id='author'>" + result.list[i].author + "</em> &nbsp; &nbsp;| &nbsp; &nbsp;" +
-                        "发布于： <em id='buptime'>" + year + "." + month + "." + day + "</em></span></li>";
+                        "发布于： <span id='buptime'>" + year + "-" + month + "-" + day + "</span></span></li>";
                 }
                 $("#l3").html(group);
                 group = "";//flush();
