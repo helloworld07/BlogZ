@@ -14,6 +14,7 @@ public class CommentInfo {
     private String flag;
     private String pubtime;
     private String nickname;
+    private int replyid;
 
     public int getId() {
         return id;
@@ -69,5 +70,13 @@ public class CommentInfo {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public int getReplyid() {
+        return replyid;
+    }
+
+    public void setReplyid(int replyid) {
+        this.replyid = replyid;
     }
 }

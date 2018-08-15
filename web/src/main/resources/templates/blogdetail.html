@@ -37,9 +37,65 @@
             width: 80%;
         }
 
+        #p1 {
+            /*text-indent:7%;*/
+            text-align: right;
+        }
+
+        .message {
+            word-break: break-word;
+        }
+        .praise {
+            width: 40px;
+            height: 40px;
+            margin: 50px auto;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+            position: relative;
+        }
     </style>
 </head>
 <script type="text/javascript">
+    //点赞
+
+    /* @author:Romey
+     * 动态点赞
+     * 此效果包含css3，部分浏览器不兼容（如：IE10以下的版本）
+     */
+    $(function(){
+        $("#praise").click(function(){
+            var praise_img = $("#praise-img");
+            var text_box = $("#add-num");
+            var praise_txt = $("#praise-txt");
+            var contentid = $("#contentid").text();
+            var num=parseInt(praise_txt.text());
+            if(praise_img.attr("src") == ("/uploadimgs/yizan.png")){
+                $(this).html("<img src='/uploadimgs/zan.png' id='praise-img' class='animation' />");
+                praise_txt.removeClass("hover");
+                text_box.show().html("<em class='add-animation'>+1</em>");
+                $(".add-animation").removeClass("hover");
+                num +=1;
+                praise_txt.text(num);
+                $.ajax({
+                    url:'/detail/addzan',
+                    type:'POST',
+                    data:{paperid:contentid},
+                    success:function (res) {
+                        
+                    }
+                });
+            }else{
+                $(this).html("<img src='/uploadimgs/yizan.png' id='praise-img' class='animation' />");
+                praise_txt.addClass("hover");
+                text_box.show().html("<em class='add-animation'>-1</em>");
+                $(".add-animation").addClass("hover");
+                num -=1;
+                praise_txt.text(num);
+            }
+        });
+    })
+
     //记住滚动条位置
     window.onbeforeunload = function () {
         var scrollPos;
@@ -76,11 +132,15 @@
                 }
             }
         });
-        //获取文章详情
-        //pagedetail();
+        //自动点击获取回复
+        $('.btnq').trigger("click");
     });
 
-    function commit() {
+    //提交留言
+    function commit(commentid) {
+        if (commentid == "") {
+            commentid = "0";
+        }
         var content = $("#textarea").val();
         var paperid = $("#contentid").text();
         var input = /^[\s]*$/;
@@ -95,11 +155,46 @@
         $.ajax({
             url: '/detail/addcomment',
             type: 'POST',
-            data: {content: content, paperid: paperid},
+            data: {content: content, paperid: paperid, commentid: commentid},
             success: function (res) {
                 if (res.flag == true) {
                     toastr.success(res.info);
-                    location.reload();
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    toastr.warning(res.info);
+                }
+            }
+        })
+    }
+
+    //提交回复
+    function commitreply(commentid) {
+        if (commentid == "") {
+            commentid = "0";
+        }
+        var content = $("#textarea1").val();
+        var paperid = $("#contentid").text();
+        var input = /^[\s]*$/;
+        if (input.test(content)) {
+            toastr.warning("留言不能为空哦~");
+            return false;
+        }
+        if (paperid == "") {
+            toastr.warning('页面异常~');
+            return false;
+        }
+        $.ajax({
+            url: '/detail/addcomment',
+            type: 'POST',
+            data: {content: content, paperid: paperid, commentid: commentid},
+            success: function (res) {
+                if (res.flag == true) {
+                    toastr.success(res.info);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
                 } else {
                     toastr.warning(res.info);
                 }
@@ -115,33 +210,62 @@
             success: function (result) {
                 if (result.flag == false) {
                     toastr.warning('请登录后再留言~');
+                    return false;
                 }
             }
         });
     }
 
-    /*var pageid;
-     function pagedetail() {
-     var url = location.search;
-     if (url.indexOf("?") != -1) {
-     var str = url.substr(1);
-     strs = str.split("&");
-     for(var i = 0; i < strs.length; i ++) {
-     pageid = strs[i].split("=")[1];
-     }
-     }
-     $(function () {
-     //文章详情
-     $.ajax({
-     url: '/detail/page',
-     type: 'POST',
-     data:{id:pageid},
-     success: function (result) {
+    //删除评论
+    function delcomment(id) {
+        var userid = [[${pagelist[0].userid}]];
+        $.ajax({
+            url: '/detail/delcomment',
+            data: {userid: userid, commentid: id},
+            type: 'POST',
+            success: function (res) {
+                if (res.flag == true) {
+                    toastr.success(res.info + '两秒后重新加载评论！');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    toastr.error(res.info);
+                }
+            }
+        })
+    }
 
-     }
-     });
-     });
-     }*/
+    //回复评论
+    function replycomment(id) {
+
+    }
+
+    //显示回复
+    var opt = "";
+    function replydetail(id) {
+        $.ajax({
+            url: '/detail/getreply',
+            data: {replyid: id},
+            type: 'POST',
+            success: function (res) {
+                for (var i in res) {
+                    var d = new Date(res[i].pubtime);
+                    var year = d.getFullYear();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate();
+                    var hour = d.getHours();
+                    var min = d.getMinutes();
+                    var sed = d.getSeconds();
+                    opt += "<br/><legend></legend><p id='p1' class='message'>" + res[i].content + "</p>" +
+                        "<span style='color:#2aabd2' align='right' class='meta'><span>" + res[i].nickname + "</span> " +
+                        "<em>| </em> <span>" + year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sed + "</span> </span>";
+                }
+                $("#a" + id).html(opt);
+                opt = "";
+            }
+        })
+    }
 </script>
 <body>
 <div class="container">
@@ -189,7 +313,14 @@
         <div th:utext="${pagelist[0].id}" hidden id="contentid"></div>
     </div>
 
-    <br/><br/><br/><br/><br/>
+    <br/><br/>
+    <!--点赞-->
+    <div class="praise">
+        <span id="praise"><img src="/uploadimgs/yizan.png" id="praise-img" class="animation"></span>
+        <span id="praise-txt" class="hover" th:text="${pagelist[0].zan}">777</span>
+        <!--<span id="add-num" style="display: inline;"><em class="add-animation hover">+1</em></span>-->
+    </div>
+    <br/><br/><br/>
     <legend></legend>
 
     <!--评论-->
@@ -211,14 +342,40 @@
                 </div>
             </fieldset>
         </div>
-        <h2>
-        </h2>
         <ul class="messages" th:each="listc:${commentlist}">
             <li class="well">
                 <p class="message" th:text="${listc.content}">
                 </p>
+                <tr><a data-toggle="collapse" th:href="@{'#comment-reply'+${listc.id}}" onclick="check()">回复</a></tr>
+                |
+                <tr><a th:onclick="'javascript: delcomment('+${listc.id}+')'" href="javascript:void()">删除</a></tr>
+                <div th:id="@{'comment-reply'+${listc.id}}" class="panel-collapse collapse">
+                    <fieldset>
+                        <br/>
+                        <div class="control-group">
+                            <div th:align="left">
+                                <textarea class="input-xlarge" id="textarea1" rows="2"></textarea>
+                            </div>
+                            <br/>
+                            <div th:align="right">
+                                <button class="btn btn-primary" th:onclick="'javascript: commitreply('+${listc.id}+')'">
+                                    提交
+                                </button>
+                                &nbsp
+                                <button class="btn" data-toggle="collapse" th:href="@{'#comment-reply'+${listc.id}}">
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
                 <span style="color:#2aabd2" th:align="right" class="meta"><span th:text="${listc.nickname}"></span> <em>| </em> <span
                         th:utext="${#strings.substring(listc.pubtime,0,19)}"></span> </span>
+                <!--评论回复-->
+                <button class="btnq" th:onclick="'javascript: replydetail('+${listc.id}+')'" hidden>加载评论</button>
+                <div th:id="@{'a'+${listc.id}}">
+
+                </div>
             </li>
         </ul>
         <div class="pagination" align="center" th:if=" ${pageInfo.pages} ne '0'">

@@ -30,18 +30,18 @@ public class BlogDetailController {
 
     //文章详情
     @RequestMapping("/page")
-    public String getdetail(ModelMap modelMap, @Param("id") String id, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,@RequestParam(value = "pageSize",defaultValue = "3") int pageSize) {
+    public String getdetail(HttpServletRequest request,ModelMap modelMap, @Param("id") String id, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,@RequestParam(value = "pageSize",defaultValue = "3") int pageSize) {
         int idnum = Integer.parseInt(id);
         List<BlogInfo> list = blogService.getpaperdetail(idnum);
-        BlogInfo blogInfo = list.get(0);
-        String title = blogInfo.getTitle();
-        //处理时间格式
         modelMap.addAttribute("pagelist", list);
         //评论
         List listc = getComment(idnum,pageNum,pageSize);
         PageInfo<BlogInfo> pageInfo = new PageInfo<>(listc);
         modelMap.addAttribute("commentlist", listc);
         modelMap.addAttribute("pageInfo", pageInfo);
+        //登录者信息（用于删除权限的判断）
+        Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        modelMap.addAttribute("userinfo",userinfo);
         return "blogdetail";
     }
 
@@ -54,7 +54,7 @@ public class BlogDetailController {
     //提交评论
     @ResponseBody
     @RequestMapping("/addcomment")
-    public ReturnInfo addComment(ReturnInfo r, String paperid, String content, HttpServletRequest request) {
+    public ReturnInfo addComment(ReturnInfo r, String paperid, String content, HttpServletRequest request,@RequestParam(value = "commentid",defaultValue = "0") String commentid) {
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
         String pubid = "";
         if (userinfo == null) {
@@ -65,7 +65,8 @@ public class BlogDetailController {
         }
         if (paperid != null && !("").equals(paperid) && content != null && !("").equals(content)) {
             int id = Integer.parseInt(paperid);
-            int count = blogService.addComment(id, content, pubid);
+            int commentnum = Integer.parseInt(commentid);
+            int count = blogService.addComment(id, content, pubid,commentnum);
             if (count < 1) {
                 r.setInfo("提交失败！");
                 return r;
@@ -78,5 +79,53 @@ public class BlogDetailController {
             return r;
         }
     }
-    //文章作者可隐藏评论
+    //文章作者可回复和删除评论
+    @ResponseBody
+    @RequestMapping("/delcomment")
+    public ReturnInfo delComment(ReturnInfo r, String userid,String commentid, HttpServletRequest request){
+        Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        if (userinfo == null) {
+            r.setInfo("登录后才可操作！");
+            return r;
+        }
+        int id = Integer.parseInt(userid);
+        if (id ==userinfo.getId()){
+            //作者权限，可删除
+            int cid = Integer.parseInt(commentid);
+            int count = blogService.delComment(cid);
+            if (count<1){
+                r.setInfo("删除评论失败！");
+                return r;
+            }else {
+                r.setFlag(true);
+                r.setInfo("评论删除成功！");
+                return r;
+            }
+        }else{
+            r.setInfo("只有本文章作者可以删除此评论！");
+            return r;
+        }
+    }
+
+    //获取回复
+    @ResponseBody
+    @RequestMapping("/getreply")
+    public List<CommentInfo> getreply(String replyid){
+        int id = Integer.parseInt(replyid);
+        List<CommentInfo> listr = blogService.getreply(id);
+        return listr;
+    }
+
+    //点赞加一
+    @ResponseBody
+    @RequestMapping("/addzan")
+    public String addZan(String paperid){
+        int i = Integer.parseInt(paperid);
+        int count = blogService.addZan(i);
+        if(count<1){
+            return "赞失败";
+        }else {
+            return "赞成功";
+        }
+    }
 }

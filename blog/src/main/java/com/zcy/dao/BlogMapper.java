@@ -3,10 +3,7 @@ package com.zcy.dao;
 import com.zcy.domain.BlogInfo;
 import com.zcy.domain.ClassifyInfo;
 import com.zcy.domain.CommentInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,6 +24,9 @@ public interface BlogMapper {
             "</script>"})
     List<BlogInfo> getpaper(@Param("classify") String classify);
 
+    @Select("select * from paper where flag = '0' and userid = #{userid}")
+    List<BlogInfo> mypaper(@Param("userid") int userid);
+
     @Select("select id,name,icon from classify")
     List<ClassifyInfo> getClassify();
 
@@ -39,9 +39,18 @@ public interface BlogMapper {
     @Select("select * from paper where id = #{id}")
     List<BlogInfo> getpaperdetail(@Param("id") int id);
 
-    @Select("select c.*,u.nickname from comment c,usertab u where paperid = #{id} and flag = '1' and c.pubid=u.id ORDER BY pubtime DESC")
+    @Select("select c.*,u.nickname from comment c,usertab u where paperid = #{id} and flag = '1' and c.pubid=u.id and replyid = '0' ORDER BY pubtime DESC")
     List<CommentInfo> getcomment(@Param("id") int id);
 
-    @Insert("insert into comment (paperid,content,pubid) values (#{paperid},#{content},#{pubid})")
-    int addComment(@Param("paperid") int paperid, @Param("content") String paper, @Param("pubid") String pubid);
+    @Insert("insert into comment (paperid,content,pubid,replyid) values (#{paperid},#{content},#{pubid},#{replyid})")
+    int addComment(@Param("paperid") int paperid, @Param("content") String paper, @Param("pubid") String pubid,@Param("replyid") int replyid);
+
+    @Update("update comment set flag = '0' where id = #{id}")
+    int delComment(@Param("id") int id);
+
+    @Select("select c.*,u.nickname from comment c,usertab u where c.pubid=u.id and replyid = #{replyid} ORDER BY pubtime DESC")
+    List<CommentInfo> getreply(@Param("replyid") int replyid);
+
+    @Update("update paper set zan = zan+1 where id = #{id}")
+    int addZan(@Param("id") int id);
 }

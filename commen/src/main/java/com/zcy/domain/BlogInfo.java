@@ -10,7 +10,9 @@ public class BlogInfo {
     private String pubtime;
     private String flag;
     private String author;
+    private int userid;
     private String classify;
+    private int zan;
 
     public int getId() {
         return id;
@@ -66,5 +68,21 @@ public class BlogInfo {
 
     public void setClassify(String classify) {
         this.classify = classify;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getZan() {
+        return zan;
+    }
+
+    public void setZan(int zan) {
+        this.zan = zan;
     }
 }

@@ -9,6 +9,7 @@ import com.zcy.utils.ReturnInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +34,16 @@ public class BlogController {
 
     //获取文章列表
     @RequestMapping("/getpaper")
-    public ReturnInfo getpaper(ReturnInfo r, HttpServletRequest request, ModelMap modelMap, int pageNum, int pageSize,String classify) {
+    public ReturnInfo getpaper(ReturnInfo r, HttpServletRequest request, ModelMap modelMap, int pageNum, int pageSize,String classify,@RequestParam(value = "usernum",required=false) String usernum) {
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        int userid = 0;
+        if (userinfo!=null) {
+            userid = userinfo.getId();
+        }
+        //只看某人博客
+        if(usernum!=null&&!("").equals(usernum)){
+            userid = Integer.parseInt(usernum);
+        }
         //暂时在博客列表不用用户信息
         /*if (userinfo!=null) {
             String author = userinfo.getUsername();
@@ -52,8 +61,9 @@ public class BlogController {
         List<BlogInfo> list;
         //如果私密
         if (("4").equals(classify)){
-            int userid = userinfo.getId();
             list = blogService.getlockpaper(userid, pageNum, pageSize);
+        }else if (("5").equals(classify)){
+            list = blogService.mypaper(userid, pageNum, pageSize);
         }else {
             list = blogService.getpaper(classify, pageNum, pageSize);
         }
