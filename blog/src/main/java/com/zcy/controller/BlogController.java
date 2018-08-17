@@ -62,7 +62,7 @@ public class BlogController {
         //如果私密
         if (("4").equals(classify)){
             list = blogService.getlockpaper(userid, pageNum, pageSize);
-        }else if (("5").equals(classify)){
+        }else if (("5").equals(classify)){//查看某个人
             list = blogService.mypaper(userid, pageNum, pageSize);
         }else {
             list = blogService.getpaper(classify, pageNum, pageSize);

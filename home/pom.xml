@@ -33,11 +33,6 @@
 			<artifactId>login</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.zcy</groupId>
-			<artifactId>commen</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<!--pagehelper分页插件-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>

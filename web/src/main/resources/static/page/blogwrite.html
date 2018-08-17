@@ -46,7 +46,7 @@
                     l2.style.visibility = 'hidden';
                     toastr.error('您还没有登录，登录后才可提交博客~');
                 } else {
-                    $("#l1").html("<a href=''>" + result.info + "</a>");
+                    $("#l1").html("<a href='/modify/getperinfo?perid="+result.id+"'>" + result.info + "</a>");
                 }
             }
         })

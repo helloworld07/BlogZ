@@ -192,11 +192,16 @@
       <Comment>性别</Comment>
       <DataType>VARCHAR(50)|12</DataType>
     </column>
-    <index id="46" parent="15" name="usertab_username_uindex">
+    <column id="46" parent="15" name="pub">
+      <Position>8</Position>
+      <DataType>VARCHAR(10)|12</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <index id="47" parent="15" name="usertab_username_uindex">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="47" parent="15" name="PRIMARY">
+    <key id="48" parent="15" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

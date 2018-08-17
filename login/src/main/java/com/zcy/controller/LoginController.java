@@ -66,6 +66,7 @@ public class LoginController {
             String nickname = userinfo.getNickname();
             r.setFlag(true);
             r.setInfo(nickname);
+            r.setId(userinfo.getId()+"");
         }
         return r;
     }

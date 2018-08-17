@@ -258,7 +258,7 @@
                     var min = d.getMinutes();
                     var sed = d.getSeconds();
                     opt += "<br/><legend></legend><p id='p1' class='message'>" + res[i].content + "</p>" +
-                        "<span style='color:#2aabd2' align='right' class='meta'><span>" + res[i].nickname + "</span> " +
+                        "<span align='right' class='meta'><a href='/modify/getperinfo?perid="+res[i].pubid+"'>" + res[i].nickname + "</a> " +
                         "<em>| </em> <span>" + year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sed + "</span> </span>";
                 }
                 $("#a" + id).html(opt);
@@ -369,7 +369,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <span style="color:#2aabd2" th:align="right" class="meta"><span th:text="${listc.nickname}"></span> <em>| </em> <span
+                <span th:align="right" class="meta"><a th:href="'/modify/getperinfo?perid='+${listc.pubid}" th:text="${listc.nickname}"></a> <em>| </em> <span
                         th:utext="${#strings.substring(listc.pubtime,0,19)}"></span> </span>
                 <!--评论回复-->
                 <button class="btnq" th:onclick="'javascript: replydetail('+${listc.id}+')'" hidden>加载评论</button>

@@ -12,6 +12,7 @@ public class ReturnInfo {
     boolean flag;
     String info;
     List list;
+    String id;
 
     public boolean isFlag() {
         return flag;
@@ -43,5 +44,13 @@ public class ReturnInfo {
 
     public void setPageinfo(PageInfo pageinfo) {
         this.pageinfo = pageinfo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

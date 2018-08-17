@@ -4,7 +4,7 @@ package com.zcy.domain;
 /**
  * Created by zcy on 2018/8/1.
  */
-public class Userinfo{
+public class Userinfo {
     private int id;
     private String username;
     private String password;
@@ -12,6 +12,7 @@ public class Userinfo{
     private String nickname;
     private String telnum;
     private String sex;
+    private String pub;
 
     public int getId() {
         return id;
@@ -69,5 +70,11 @@ public class Userinfo{
         this.sex = sex;
     }
 
+    public String getPub() {
+        return pub;
+    }
 
+    public void setPub(String pub) {
+        this.pub = pub;
+    }
 }
