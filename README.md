@@ -71,4 +71,6 @@
 19.点赞的功能考虑到实用和性能，做了一个只会加且可重复加的效果
 20.密码没有做加密处理
 21.因为启动项类是在web包里的，所以相关的配置文件应该也放在web包下的properties中
-22.`
+22.引入redis缓存，set key value的方式存爬虫数据入缓存中，用scheduel定时爬去数据，
+    set key相同会覆盖上次value,达到更新数据的效果
+23.引入freemarker，maven包、properties即可`

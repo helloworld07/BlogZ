@@ -29,7 +29,7 @@
         }
     </script>
     <script src="../pace/pace.js"></script>
-    <link href="../pace/themes/pace-theme-minimal.css" rel="stylesheet" />
+    <link href="../pace/themes/pace-theme-minimal.css" rel="stylesheet"/>
 </head>
 <script type="text/javascript">
     //初始化
@@ -92,65 +92,36 @@
     </div>
 </nav>
 
-<!--<div class="container">
-    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span
-                        class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a
-                    class="brand" href="">BlogZ</a>
-                <div class="nav-collapse">
-                    <ul class="nav">
-                        <li class="active">
-                            <a href="">首页</a>
-                        </li>
-                        <li>
-                            <a href="../page/blogpage.html">博客</a>
-                        </li>
-                        <li>
-                            <a href="">帮助</a>
-                        </li>
-                    </ul>
-                    <ul class="nav pull-right">
-                        <li id="l1">
-
-                        </li>
-                        <li id="l2">
-                            <a href="/page/logout">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<!--首页内容-->
+<div id="myCarousel" class="carousel slide">
+    <!-- 轮播（Carousel）指标 -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <!-- 轮播（Carousel）项目 -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <a href="#"><img src="../carouselimgs/1.jpg" alt="First slide"></a>
+            <div class="carousel-caption">标题</div>
         </div>
-    </nav>-->
-    <!--首页内容-->
-    <div id="myCarousel" class="carousel slide">
-        <!-- 轮播（Carousel）指标 -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <!-- 轮播（Carousel）项目 -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <a href="#"><img src="../carouselimgs/1.jpg" alt="First slide"></a>
-                <div class="carousel-caption">标题 </div>
-            </div>
-            <div class="item">
-                <a href="#"><img src="../carouselimgs/2.jpg" alt="Second slide"></a>
-                <div class="carousel-caption">标题 </div>
-            </div>
-            <div class="item">
-                <a href="#"><img src="../carouselimgs/3.jpg" alt="Third slide"></a>
-                <div class="carousel-caption">标题 </div>
-            </div>
+        <div class="item">
+            <a href="#"><img src="../carouselimgs/2.jpg" alt="Second slide"></a>
+            <div class="carousel-caption">标题</div>
         </div>
-        <!-- 轮播（Carousel）导航 -->
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        </a>
+        <div class="item">
+            <a href="#"><img src="../carouselimgs/3.jpg" alt="Third slide"></a>
+            <div class="carousel-caption">标题</div>
+        </div>
     </div>
+    <!-- 轮播（Carousel）导航 -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    </a>
+
+    ${content}
+</div>
 </body>
 </html>
