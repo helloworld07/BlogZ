@@ -121,7 +121,31 @@
     <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
     </a>
 
-    ${content}
+
 </div>
+<!--新闻头条数据-->
+<br/><br/><br/>
+<div>
+    <h1 align="center"><p><span class="glyphicon glyphicon-fire"></span>博客新闻</p></h1>
+    <div align="center">（<a href="https://blog.csdn.net" target="_blank">数据来源：CSDN</a>）</div>
+    <br/><br/>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <#list listmap as col>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            ${col["title"]}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        ${col["content"]}
+                    </div>
+                </div>
+            </#list>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

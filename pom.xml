@@ -10,11 +10,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>login</module>
-        <module>web</module>
         <module>commen</module>
         <module>blog</module>
+        <module>login</module>
         <module>home</module>
+        <module>web</module>
     </modules>
 
     <parent>
@@ -47,4 +47,13 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,12 +1,14 @@
-package com.zcy.Service;
+package com.zcy.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -14,9 +16,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by zcy on 2018/8/18.
  */
-@Service
+@Component
 public class RedisServiceImpl {
-    @Autowired
+
+    @Resource
     private RedisTemplate redisTemplate;
 
     // 批量删除对应的value

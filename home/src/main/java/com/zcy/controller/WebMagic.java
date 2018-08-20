@@ -1,13 +1,9 @@
 package com.zcy.controller;
 
-import com.zcy.Service.RedisServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.zcy.pipline.ContentPipline;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -15,18 +11,12 @@ import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by zcy on 2018/8/18.
  */
 @Component
 public class WebMagic implements PageProcessor {
-
-    @Autowired
-    private RedisServiceImpl redisService;
-
-    private final Logger logger = LoggerFactory.getLogger(WebMagic.class);
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
     private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
 
@@ -39,19 +29,13 @@ public class WebMagic implements PageProcessor {
         //将这些链接加入到待抓取的队列中去
         page.addTargetRequests(links);
         //相同元素的结果加到相应的集合中去
-        page.putField("model", page.getHtml().xpath("//ul[@class='feedlist_mod home']").toString());
-        String model = page.getResultItems().get("model");
-//        System.out.println(model);
-        //写入缓存
-        boolean flag = Setredis("content", model);
-        if (flag) {
-            logger.info("redis save content successed!");
-        } else {
-            logger.error("redis save failed!");
+        //全文，比较杂乱，不好去除不想要的内容
+        //page.putField("model", page.getHtml().xpath("//ul[@class='feedlist_mod home']").toString());
+        page.putField("title", page.getHtml().xpath("//div[@class='title']/h2").all());
+        page.putField("content", page.getHtml().xpath("//div[@class='summary oneline']").all());
         /*page.putField("titleList", page.getHtml().xpath("//div[@class='title']/h2/a/text()").all());
         page.putField("contentlist", page.getHtml().xpath("//span[@class='content']/text()").all());
         page.putField("pinlunlist", page.getHtml().xpath("//span[@class='link_comments']/text()").all());*/
-        }
     }
 
     @Override
@@ -59,14 +43,13 @@ public class WebMagic implements PageProcessor {
         return site;
     }
 
-    //写入redis
-    public boolean Setredis(String key, Object value) {
-        boolean set = redisService.set(key, value);
-        return set;
-    }
+    @Autowired
+    private ContentPipline contentPipline;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron="* 0/5 *  * * ? ")
     public void ScheMagic() {
-        Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").run();
+        Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(contentPipline).run();
+        //Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(new ConsolePipeline()).run();
+        //Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(new ContentPipline()).run();
     }
 }

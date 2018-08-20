@@ -15,9 +15,9 @@
             首页模块 ：
                         首页轮播图 √
                         首页新闻页：(只显示有限条数)
-                                    数据抓取
-                                    新闻列表
-                                    新闻详情
+                                    数据抓取 √
+                                    新闻列表 √
+                                    新闻详情 √
             博客文章 : 文章列表页+分页ajax √
                        文章分类栏后台自动获取，分类分页功能完整 √
                                     分类新增：我的博客 √
@@ -38,7 +38,10 @@
                        
                        
                        
-
+**打包有错误，程序包xxx不存在，但有时候又可以？**
+1.某次解决步骤：BlogZ->clean
+               Reimport
+               启动
 
 
 `tips:
@@ -73,4 +76,10 @@
 21.因为启动项类是在web包里的，所以相关的配置文件应该也放在web包下的properties中
 22.引入redis缓存，set key value的方式存爬虫数据入缓存中，用scheduel定时爬去数据，
     set key相同会覆盖上次value,达到更新数据的效果
-23.引入freemarker，maven包、properties即可`
+23.引入freemarker，maven包、properties即可
+24.不能用new直接实例化ContentPipline,需要用Autowire的方式注入才行，否则会报Nullpoint,
+    因为ContentPipline中有springmvc注入的类，如果直接实例化，则没有用到依赖注入，
+    所以ConetentPipline里的注入无效，导致这边也会nullpoint
+25.新闻页这块采用的WebMagic爬虫去爬取CSDN中首页的内容，存入redis缓存中，整合数据后直接用
+    freemarker模板传回前台显示
+26`
