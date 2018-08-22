@@ -13,6 +13,7 @@ public class Userinfo {
     private String telnum;
     private String sex;
     private String pub;
+    private String collids;
 
     public int getId() {
         return id;
@@ -76,5 +77,13 @@ public class Userinfo {
 
     public void setPub(String pub) {
         this.pub = pub;
+    }
+
+    public String getCollids() {
+        return collids;
+    }
+
+    public void setCollids(String collids) {
+        this.collids = collids;
     }
 }

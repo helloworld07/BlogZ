@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/blog/pom.xml" />
         <option value="$PROJECT_DIR$/commen/pom.xml" />
         <option value="$PROJECT_DIR$/home/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq/pom.xml" />
       </list>
     </option>
   </component>

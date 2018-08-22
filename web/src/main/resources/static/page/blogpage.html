@@ -71,6 +71,9 @@
             data: {pageNum:pageNum,pageSize:pageSize,classify:classifyidall},
             success: function (result) {
                 console.log(result);
+                if (result.flag==false){
+                    toastr.warning(result.info);
+                }
                 pagenext = result.pageinfo.nextPage;
                 pagepre = result.pageinfo.prePage;
                 firstpage = result.pageinfo.firstPage;

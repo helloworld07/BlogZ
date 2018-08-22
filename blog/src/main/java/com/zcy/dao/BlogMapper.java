@@ -3,8 +3,10 @@ package com.zcy.dao;
 import com.zcy.domain.BlogInfo;
 import com.zcy.domain.ClassifyInfo;
 import com.zcy.domain.CommentInfo;
+import com.zcy.domain.Userinfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public interface BlogMapper {
             "AND classify = #{classify}",
             "</when>",
             "and flag = '0'",
+            "order by pubtime desc",
             "</script>"})
     List<BlogInfo> getpaper(@Param("classify") String classify);
 
@@ -43,7 +46,7 @@ public interface BlogMapper {
     List<CommentInfo> getcomment(@Param("id") int id);
 
     @Insert("insert into comment (paperid,content,pubid,replyid) values (#{paperid},#{content},#{pubid},#{replyid})")
-    int addComment(@Param("paperid") int paperid, @Param("content") String paper, @Param("pubid") String pubid,@Param("replyid") int replyid);
+    int addComment(@Param("paperid") int paperid, @Param("content") String paper, @Param("pubid") String pubid, @Param("replyid") int replyid);
 
     @Update("update comment set flag = '0' where id = #{id}")
     int delComment(@Param("id") int id);
@@ -53,4 +56,13 @@ public interface BlogMapper {
 
     @Update("update paper set zan = zan+1 where id = #{id}")
     int addZan(@Param("id") int id);
+
+    @Select("select * from usertab where id = #{id}")
+    List<Userinfo> getUserById(@Param("id") int id);
+
+    @Update("update usertab set collids = #{collids} where id = #{id}")
+    int updateColl(@Param("collids") String collids,@Param("id")int id);
+
+    @Select("select * from paper where id IN (${ids})")
+    List<BlogInfo> getCollById(@Param("ids")String ids);
 }

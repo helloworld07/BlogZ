@@ -1,6 +1,8 @@
 package com.zcy.controller;
 
 import com.zcy.pipline.ContentPipline;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,8 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +24,7 @@ public class WebMagic implements PageProcessor {
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
     private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
 
+    private final Logger logger = LoggerFactory.getLogger(WebMagic.class);
     /*每分钟爬去数据存入缓存*/
     @Override
     public void process(Page page) {
@@ -46,9 +51,14 @@ public class WebMagic implements PageProcessor {
     @Autowired
     private ContentPipline contentPipline;
 
-    @Scheduled(cron="* 0/5 *  * * ? ")
+    //每5分钟更新一次数据
+    @Scheduled(fixedRate = 1000*60*5)
+    //@Scheduled(cron="* 0/5 * * * ? ")
     public void ScheMagic() {
-        Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(contentPipline).run();
+        logger.info("Scheduled Running Time is:"+ new Date() );
+        Spider spider = Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(contentPipline).thread(5);
+        spider.start();
+        spider.stop();
         //Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(new ConsolePipeline()).run();
         //Spider.create(new WebMagic()).addUrl("https://blog.csdn.net").addPipeline(new ContentPipline()).run();
     }

@@ -124,6 +124,15 @@
           <element id="library" level="project" name="Maven: org.freemarker:freemarker:2.3.28" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context-support:5.0.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.0.7.RELEASE" />
+          <element id="archive" name="rabbitmq-0.0.1-SNAPSHOT.jar">
+            <element id="module-output" name="rabbitmq" />
+          </element>
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-amqp:2.0.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-messaging:5.0.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.amqp:spring-rabbit:2.0.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.amqp:spring-amqp:2.0.4.RELEASE" />
+          <element id="library" level="project" name="Maven: com.rabbitmq:amqp-client:5.1.2" />
+          <element id="library" level="project" name="Maven: org.springframework.retry:spring-retry:1.2.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:2.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.0.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.0.7.RELEASE" />

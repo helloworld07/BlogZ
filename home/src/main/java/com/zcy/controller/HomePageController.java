@@ -1,6 +1,9 @@
 package com.zcy.controller;
 
+import com.zcy.pipline.ContentPipline;
 import com.zcy.service.RedisServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,10 +24,18 @@ public class HomePageController {
     @Autowired
     RedisServiceImpl redisService;
 
+    private final Logger logger = LoggerFactory.getLogger(HomePageController.class);
+
     @RequestMapping("/page")
     public String homePage(ModelMap modelMap){
-        ArrayList title = (ArrayList) redisService.get("title");
-        ArrayList content = (ArrayList) redisService.get("content");
+        ArrayList title = new ArrayList();
+        ArrayList content = new ArrayList();
+        try {
+            title = (ArrayList) redisService.get("title");
+            content = (ArrayList) redisService.get("content");
+        }catch (Exception e){
+            logger.error("redis is not running! DetailInfo:"+e);
+        }
         //合并输出
         List<Map<String,String>> columns=new ArrayList<Map<String,String>>();
         for(int i=0;i<title.size();i++){

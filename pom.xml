@@ -15,6 +15,7 @@
         <module>login</module>
         <module>home</module>
         <module>web</module>
+        <module>rabbitmq</module>
     </modules>
 
     <parent>

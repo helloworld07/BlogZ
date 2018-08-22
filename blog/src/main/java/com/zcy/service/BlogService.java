@@ -5,6 +5,7 @@ import com.zcy.dao.BlogMapper;
 import com.zcy.domain.BlogInfo;
 import com.zcy.domain.ClassifyInfo;
 import com.zcy.domain.CommentInfo;
+import com.zcy.domain.Userinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,5 +87,23 @@ public class BlogService {
     public int addZan(int id) {
         int i = blogMapper.addZan(id);
         return i;
+    }
+
+    //获取用户信息
+    public List<Userinfo> getUserById(int id){
+        List<Userinfo> userById = blogMapper.getUserById(id);
+        return userById;
+    }
+
+    //更新收藏
+    public int updateColl(String collids,int id){
+        int i = blogMapper.updateColl(collids, id);
+        return i;
+    }
+
+    //查看收藏
+    public List<BlogInfo> getCollById(String ids){
+        List<BlogInfo> collById = blogMapper.getCollById(ids);
+        return collById;
     }
 }

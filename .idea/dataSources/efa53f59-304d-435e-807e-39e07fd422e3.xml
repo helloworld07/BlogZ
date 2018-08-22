@@ -194,14 +194,22 @@
     </column>
     <column id="46" parent="15" name="pub">
       <Position>8</Position>
+      <Comment>是否公开</Comment>
       <DataType>VARCHAR(10)|12</DataType>
       <DefaultExpression>&apos;1&apos;</DefaultExpression>
     </column>
-    <index id="47" parent="15" name="usertab_username_uindex">
+    <column id="47" parent="15" name="collids">
+      <Position>9</Position>
+      <Comment>收藏文章ids</Comment>
+      <DataType>VARCHAR(1000)|12</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0,&apos;</DefaultExpression>
+    </column>
+    <index id="48" parent="15" name="usertab_username_uindex">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="48" parent="15" name="PRIMARY">
+    <key id="49" parent="15" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

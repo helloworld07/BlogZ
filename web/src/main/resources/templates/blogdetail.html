@@ -32,6 +32,9 @@
     </script>
     <script src="../pace/pace.js"></script>
     <link href="../pace/themes/pace-theme-minimal.css" rel="stylesheet"/>
+    <!--share.js分享插件-->
+    <script src="../share/dist/js/social-share.min.js"></script>
+    <link rel="stylesheet" href="../share/dist/css/share.min.css">
     <style>
         .input-xlarge {
             width: 80%;
@@ -45,6 +48,7 @@
         .message {
             word-break: break-word;
         }
+
         .praise {
             width: 40px;
             height: 40px;
@@ -63,34 +67,34 @@
      * 动态点赞
      * 此效果包含css3，部分浏览器不兼容（如：IE10以下的版本）
      */
-    $(function(){
-        $("#praise").click(function(){
+    $(function () {
+        $("#praise").click(function () {
             var praise_img = $("#praise-img");
             var text_box = $("#add-num");
             var praise_txt = $("#praise-txt");
             var contentid = $("#contentid").text();
-            var num=parseInt(praise_txt.text());
-            if(praise_img.attr("src") == ("/uploadimgs/yizan.png")){
+            var num = parseInt(praise_txt.text());
+            if (praise_img.attr("src") == ("/uploadimgs/yizan.png")) {
                 $(this).html("<img src='/uploadimgs/zan.png' id='praise-img' class='animation' />");
                 praise_txt.removeClass("hover");
                 text_box.show().html("<em class='add-animation'>+1</em>");
                 $(".add-animation").removeClass("hover");
-                num +=1;
+                num += 1;
                 praise_txt.text(num);
                 $.ajax({
-                    url:'/detail/addzan',
-                    type:'POST',
-                    data:{paperid:contentid},
-                    success:function (res) {
-                        
+                    url: '/detail/addzan',
+                    type: 'POST',
+                    data: {paperid: contentid},
+                    success: function (res) {
+
                     }
                 });
-            }else{
+            } else {
                 $(this).html("<img src='/uploadimgs/yizan.png' id='praise-img' class='animation' />");
                 praise_txt.addClass("hover");
                 text_box.show().html("<em class='add-animation'>-1</em>");
                 $(".add-animation").addClass("hover");
-                num -=1;
+                num -= 1;
                 praise_txt.text(num);
             }
         });
@@ -236,11 +240,6 @@
         })
     }
 
-    //回复评论
-    function replycomment(id) {
-
-    }
-
     //显示回复
     var opt = "";
     function replydetail(id) {
@@ -258,7 +257,7 @@
                     var min = d.getMinutes();
                     var sed = d.getSeconds();
                     opt += "<br/><legend></legend><p id='p1' class='message'>" + res[i].content + "</p>" +
-                        "<span align='right' class='meta'><a href='/modify/getperinfo?perid="+res[i].pubid+"'>" + res[i].nickname + "</a> " +
+                        "<span align='right' class='meta'><a href='/modify/getperinfo?perid=" + res[i].pubid + "'>" + res[i].nickname + "</a> " +
                         "<em>| </em> <span>" + year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sed + "</span> </span>";
                 }
                 $("#a" + id).html(opt);
@@ -266,6 +265,46 @@
             }
         })
     }
+
+    //收藏
+    function collection() {
+        var className = document.getElementById("btn1").className;
+        //收入
+        if (className=='btn btn-small'){
+            $("#btn1").removeClass("btn btn-small");
+            $("#btn1").addClass("btn btn-small active");
+            $.ajax({
+                url:'/detail/addcoll',
+                type:'POST',
+                data:{paperid:[[${pagelist[0].id}]]},
+                success:function (res) {
+                    if (res.flag==true){
+                        toastr.success(res.info);
+                    }else {
+                        toastr.error(res.info);
+                    }
+                }
+            })
+        }
+        //取消
+        if (className=='btn btn-small active'){
+            $("#btn1").removeClass("btn btn-small active");
+            $("#btn1").addClass("btn btn-small");
+            $.ajax({
+                url:'/detail/calcoll',
+                type:'POST',
+                data:{paperid:[[${pagelist[0].id}]]},
+                success:function (res) {
+                    if (res.flag==true){
+                        toastr.success(res.info);
+                    }else {
+                        toastr.error(res.info);
+                    }
+                }
+            })
+        }
+    }
+
 </script>
 <body>
 <div class="container">
@@ -308,6 +347,18 @@
             <p style="color:#2aabd2">发布时间：<span
                     th:utext="${#strings.substring(pagelist[0].pubtime,0,10)}+'&nbsp &nbsp &nbsp发布人：'+${pagelist[0].author}"></span>
             </p>
+            <button th:if=" ${flag} ne '1'" id="btn1" onclick="collection()" type="button" class="btn btn-small" data-toggle="tooltip" title="收藏"><span class="icon-heart"></span></button>
+            <button th:if=" ${flag} eq '1'" id="btn1" onclick="collection()" type="button" class="btn btn-small active" data-toggle="tooltip" title="收藏"><span class="icon-heart"></span></button>
+            <button data-toggle="collapse" href="#myModal" type="button" class="btn btn-small" title="分享"><span class="icon-share"></span></button>
+            <div class="panel-collapse collapse" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="share-component" data-sites="qzone,qq,weibo,wechat,douban"></div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
         </div>
         <div th:utext="${pagelist[0].content}">文章详情加载中,请稍后...</div>
         <div th:utext="${pagelist[0].id}" hidden id="contentid"></div>
@@ -369,7 +420,8 @@
                         </div>
                     </fieldset>
                 </div>
-                <span th:align="right" class="meta"><a th:href="'/modify/getperinfo?perid='+${listc.pubid}" th:text="${listc.nickname}"></a> <em>| </em> <span
+                <span th:align="right" class="meta"><a th:href="'/modify/getperinfo?perid='+${listc.pubid}"
+                                                       th:text="${listc.nickname}"></a> <em>| </em> <span
                         th:utext="${#strings.substring(listc.pubtime,0,19)}"></span> </span>
                 <!--评论回复-->
                 <button class="btnq" th:onclick="'javascript: replydetail('+${listc.id}+')'" hidden>加载评论</button>

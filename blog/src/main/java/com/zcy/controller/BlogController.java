@@ -58,18 +58,29 @@ public class BlogController {
             r.setPageinfo(pageInfo);
             r.setList(list);
         }*/
-        List<BlogInfo> list;
+        List<BlogInfo> list = null;
         //如果私密
         if (("4").equals(classify)){
             list = blogService.getlockpaper(userid, pageNum, pageSize);
         }else if (("5").equals(classify)){//查看某个人
             list = blogService.mypaper(userid, pageNum, pageSize);
-        }else {
+        }else if(("6").equals(classify)){//查看收藏
+            if (userid==0){
+                r.setFlag(false);
+                r.setInfo("登录后才可查看收藏!");
+                return r;
+            }else {
+                String collids = userinfo.getCollids();
+                collids  = collids.substring(0, collids.length() - 1);
+                list = blogService.getCollById(collids);
+            }
+        } else {
             list = blogService.getpaper(classify, pageNum, pageSize);
         }
         PageInfo<BlogInfo> pageInfo = new PageInfo<>(list);
         r.setPageinfo(pageInfo);
         r.setList(list);
+        r.setFlag(true);
         return r;
     }
 

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,8 +41,20 @@ public class BlogDetailController {
         PageInfo<BlogInfo> pageInfo = new PageInfo<>(listc);
         modelMap.addAttribute("commentlist", listc);
         modelMap.addAttribute("pageInfo", pageInfo);
-        //登录者信息（用于删除权限的判断）
+        //登录者信息（用于删除权限的判断、收藏文章判断）
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        if (userinfo!=null) {
+            userinfo.setPassword("*****");
+            String collids = userinfo.getCollids();
+            String[] split = collids.split(",");
+            String flag = "0";
+            for (int i = 0; i < split.length; i++) {
+                if (id.equals(split[i])){
+                    flag = "1";
+                }
+            }
+            modelMap.addAttribute("flag",flag);
+        }
         modelMap.addAttribute("userinfo",userinfo);
         return "blogdetail";
     }
@@ -127,5 +141,69 @@ public class BlogDetailController {
         }else {
             return "赞成功";
         }
+    }
+
+    //收藏文章
+    @ResponseBody
+    @RequestMapping("/addcoll")
+    public ReturnInfo addColl(String paperid,HttpServletRequest request,ReturnInfo r){
+        Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        if (userinfo==null){
+            r.setInfo("请登录后再收藏文章！");
+            return r;
+        }
+        //拿到所有收藏信息
+        List<Userinfo> userById = blogService.getUserById(userinfo.getId());
+        Userinfo user = userById.get(0);
+        String collids = user.getCollids();
+        //加入新的收藏
+        collids = collids + paperid + ",";
+        int i = blogService.updateColl(collids, user.getId());
+        if (i==1){
+            r.setFlag(true);
+            r.setInfo("收藏成功！");
+        }else {
+            r.setInfo("收藏出现问题了！");
+            return r;
+        }
+        //刷新缓存，避免刚收藏的看不到
+        List<Userinfo> updateinfo = blogService.getUserById(userinfo.getId());
+        Userinfo userinfoupdate = updateinfo.get(0);
+        request.getSession().setAttribute("userinfo",userinfoupdate);
+        return r;
+    }
+
+    //收藏文章
+    @ResponseBody
+    @RequestMapping("/calcoll")
+    public ReturnInfo calColl(String paperid,HttpServletRequest request,ReturnInfo r){
+        Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+        if (userinfo==null){
+            r.setInfo("请登录后再取消收藏！");
+            return r;
+        }
+        //拿到所有收藏信息
+        List<Userinfo> userById = blogService.getUserById(userinfo.getId());
+        Userinfo user = userById.get(0);
+        String collids = user.getCollids();
+        //取消收藏
+       if(collids.contains(paperid)){
+           collids = collids.replace(paperid+",","");
+       }else {
+           r.setInfo("取消收藏失败！");
+       }
+        int i = blogService.updateColl(collids, user.getId());
+        if (i==1){
+            r.setFlag(true);
+            r.setInfo("取消收藏成功！");
+        }else {
+            r.setInfo("取消收藏出现问题了！");
+            return r;
+        }
+        //刷新缓存
+        List<Userinfo> updateinfo = blogService.getUserById(userinfo.getId());
+        Userinfo userinfoupdate = updateinfo.get(0);
+        request.getSession().setAttribute("userinfo",userinfoupdate);
+        return r;
     }
 }

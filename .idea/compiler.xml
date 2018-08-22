@@ -10,6 +10,7 @@
         <module name="commen" />
         <module name="home" />
         <module name="login" />
+        <module name="rabbitmq" />
         <module name="web" />
       </profile>
     </annotationProcessing>
@@ -19,6 +20,7 @@
       <module name="commen" target="1.8" />
       <module name="home" target="1.8" />
       <module name="login" target="1.8" />
+      <module name="rabbitmq" target="1.8" />
       <module name="web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
