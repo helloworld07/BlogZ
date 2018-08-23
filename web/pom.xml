@@ -50,7 +50,11 @@
             <artifactId>commons-codec</artifactId>
             <version>1.9</version>
         </dependency>
-
+        <!-- aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

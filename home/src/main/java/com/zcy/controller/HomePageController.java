@@ -1,6 +1,5 @@
 package com.zcy.controller;
 
-import com.zcy.pipline.ContentPipline;
 import com.zcy.service.RedisServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

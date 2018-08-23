@@ -1,11 +1,8 @@
-package com.zcy.pipline;
+package com.zcy.webmagic;
 
-import com.zcy.dao.LoginMapper;
-import com.zcy.domain.Userinfo;
 import com.zcy.service.RedisServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
@@ -13,7 +10,6 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zcy on 2018/8/20.

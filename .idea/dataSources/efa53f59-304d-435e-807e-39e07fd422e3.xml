@@ -19,197 +19,245 @@
     <table id="13" parent="3" name="comment"/>
     <table id="14" parent="3" name="paper"/>
     <table id="15" parent="3" name="usertab"/>
-    <column id="16" parent="12" name="id">
+    <table id="16" parent="3" name="usertrack"/>
+    <column id="17" parent="12" name="id">
       <Position>1</Position>
       <Comment>id</Comment>
       <DataType>INT(10)|4</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="17" parent="12" name="name">
+    <column id="18" parent="12" name="name">
       <Position>2</Position>
       <Comment>分类名称</Comment>
       <DataType>VARCHAR(50)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="18" parent="12" name="icon">
+    <column id="19" parent="12" name="icon">
       <Position>3</Position>
       <DataType>VARCHAR(50)|12</DataType>
     </column>
-    <index id="19" parent="12" name="classify_name_uindex">
+    <index id="20" parent="12" name="classify_name_uindex">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="20" parent="12" name="PRIMARY">
+    <key id="21" parent="12" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="21" parent="13" name="id">
+    <column id="22" parent="13" name="id">
       <Position>1</Position>
       <Comment>id</Comment>
       <DataType>INT(10)|4</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="22" parent="13" name="paperid">
+    <column id="23" parent="13" name="paperid">
       <Position>2</Position>
       <Comment>对应文章的id</Comment>
       <DataType>INT(10)|4</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="23" parent="13" name="content">
+    <column id="24" parent="13" name="content">
       <Position>3</Position>
       <Comment>评论内容</Comment>
       <DataType>VARCHAR(3000)|12</DataType>
     </column>
-    <column id="24" parent="13" name="pubid">
+    <column id="25" parent="13" name="pubid">
       <Position>4</Position>
       <Comment>评论者id</Comment>
       <DataType>VARCHAR(300)|12</DataType>
     </column>
-    <column id="25" parent="13" name="flag">
+    <column id="26" parent="13" name="flag">
       <Position>5</Position>
       <DataType>VARCHAR(10)|12</DataType>
       <DefaultExpression>&apos;1&apos;</DefaultExpression>
     </column>
-    <column id="26" parent="13" name="pubtime">
+    <column id="27" parent="13" name="pubtime">
       <Position>6</Position>
       <DataType>TIMESTAMP(19)|93</DataType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="27" parent="13" name="replyid">
+    <column id="28" parent="13" name="replyid">
       <Position>7</Position>
       <Comment>回复评论id</Comment>
       <DataType>INT(10)|4</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="28" parent="13" name="PRIMARY">
+    <key id="29" parent="13" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="29" parent="14" name="id">
+    <column id="30" parent="14" name="id">
       <Position>1</Position>
       <Comment>id</Comment>
       <DataType>INT(10)|4</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="30" parent="14" name="title">
+    <column id="31" parent="14" name="title">
       <Position>2</Position>
       <Comment>标题</Comment>
       <DataType>VARCHAR(50)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="31" parent="14" name="content">
+    <column id="32" parent="14" name="content">
       <Position>3</Position>
       <Comment>内容</Comment>
       <DataType>VARCHAR(5000)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="32" parent="14" name="pubtime">
+    <column id="33" parent="14" name="pubtime">
       <Position>4</Position>
       <Comment>发布时间</Comment>
       <DataType>TIMESTAMP(19)|93</DataType>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
     </column>
-    <column id="33" parent="14" name="flag">
+    <column id="34" parent="14" name="flag">
       <Position>5</Position>
       <Comment>标记位</Comment>
       <DataType>VARCHAR(50)|12</DataType>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="34" parent="14" name="author">
+    <column id="35" parent="14" name="author">
       <Position>6</Position>
       <Comment>作者</Comment>
       <DataType>VARCHAR(200)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="35" parent="14" name="userid">
+    <column id="36" parent="14" name="userid">
       <Position>7</Position>
       <DataType>INT(10)|4</DataType>
     </column>
-    <column id="36" parent="14" name="classify">
+    <column id="37" parent="14" name="classify">
       <Position>8</Position>
       <Comment>分类</Comment>
       <DataType>VARCHAR(500)|12</DataType>
     </column>
-    <column id="37" parent="14" name="zan">
+    <column id="38" parent="14" name="zan">
       <Position>9</Position>
       <DataType>INT(10)|4</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="38" parent="14" name="PRIMARY">
+    <key id="39" parent="14" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="39" parent="15" name="id">
+    <column id="40" parent="15" name="id">
       <Position>1</Position>
       <Comment>id</Comment>
       <DataType>INT(10)|4</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="40" parent="15" name="username">
+    <column id="41" parent="15" name="username">
       <Position>2</Position>
       <Comment>用户名</Comment>
       <DataType>VARCHAR(50)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="41" parent="15" name="password">
+    <column id="42" parent="15" name="password">
       <Position>3</Position>
       <Comment>密码</Comment>
       <DataType>VARCHAR(200)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="42" parent="15" name="email">
+    <column id="43" parent="15" name="email">
       <Position>4</Position>
       <Comment>邮箱</Comment>
       <DataType>VARCHAR(100)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="43" parent="15" name="nickname">
+    <column id="44" parent="15" name="nickname">
       <Position>5</Position>
       <Comment>昵称</Comment>
       <DataType>VARCHAR(200)|12</DataType>
     </column>
-    <column id="44" parent="15" name="telnum">
+    <column id="45" parent="15" name="telnum">
       <Position>6</Position>
       <Comment>电话号码</Comment>
       <DataType>VARCHAR(100)|12</DataType>
     </column>
-    <column id="45" parent="15" name="sex">
+    <column id="46" parent="15" name="sex">
       <Position>7</Position>
       <Comment>性别</Comment>
       <DataType>VARCHAR(50)|12</DataType>
     </column>
-    <column id="46" parent="15" name="pub">
+    <column id="47" parent="15" name="pub">
       <Position>8</Position>
       <Comment>是否公开</Comment>
       <DataType>VARCHAR(10)|12</DataType>
       <DefaultExpression>&apos;1&apos;</DefaultExpression>
     </column>
-    <column id="47" parent="15" name="collids">
+    <column id="48" parent="15" name="collids">
       <Position>9</Position>
       <Comment>收藏文章ids</Comment>
       <DataType>VARCHAR(1000)|12</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0,&apos;</DefaultExpression>
     </column>
-    <index id="48" parent="15" name="usertab_username_uindex">
+    <index id="49" parent="15" name="usertab_username_uindex">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="49" parent="15" name="PRIMARY">
+    <key id="50" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="51" parent="16" name="id">
+      <Position>1</Position>
+      <Comment>id</Comment>
+      <DataType>INT(10)|4</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="52" parent="16" name="userid">
+      <Position>2</Position>
+      <Comment>用户id</Comment>
+      <DataType>INT(10)|4</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <column id="53" parent="16" name="classname">
+      <Position>3</Position>
+      <Comment>操作类名</Comment>
+      <DataType>VARCHAR(500)|12</DataType>
+    </column>
+    <column id="54" parent="16" name="operation">
+      <Position>4</Position>
+      <Comment>操作</Comment>
+      <DataType>VARCHAR(1000)|12</DataType>
+    </column>
+    <column id="55" parent="16" name="url">
+      <Position>5</Position>
+      <DataType>VARCHAR(500)|12</DataType>
+    </column>
+    <column id="56" parent="16" name="time">
+      <Position>6</Position>
+      <Comment>操作时间</Comment>
+      <DataType>TIMESTAMP(19)|93</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="57" parent="16" name="ipadd">
+      <Position>7</Position>
+      <DataType>VARCHAR(100)|12</DataType>
+    </column>
+    <column id="58" parent="16" name="args">
+      <Position>8</Position>
+      <DataType>VARCHAR(500)|12</DataType>
+    </column>
+    <key id="59" parent="16" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
