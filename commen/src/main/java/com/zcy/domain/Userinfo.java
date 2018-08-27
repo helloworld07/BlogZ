@@ -1,10 +1,12 @@
 package com.zcy.domain;
 
 
+import java.io.Serializable;
+
 /**
  * Created by zcy on 2018/8/1.
  */
-public class Userinfo {
+public class Userinfo implements Serializable{
     private int id;
     private String username;
     private String password;

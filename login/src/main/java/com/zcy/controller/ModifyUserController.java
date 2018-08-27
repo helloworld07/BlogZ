@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class ModifyUserController {
     //修改密码
     @RequestMapping("/chgpwd")
     @ResponseBody
-    public ReturnInfo changePwd(String oldpwd, String newpwd, String newpwdaga, HttpServletRequest request,ReturnInfo r){
+    public ReturnInfo changePwd(String oldpwd, @Pattern(regexp = "^[A-Za-z0-9]{9,20}$",message = "请输入符合规范的密码！") String newpwd, String newpwdaga, HttpServletRequest request, ReturnInfo r){
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
         if (userinfo==null){
             r.setInfo("请登录！");
@@ -69,7 +72,7 @@ public class ModifyUserController {
     //修改个人信息
     @RequestMapping("/chginfo")
     @ResponseBody
-    public ReturnInfo changePwd(String nickname, String telnum, String email,String sex,boolean pub, HttpServletRequest request,ReturnInfo r) {
+    public ReturnInfo changePwd(@NotEmpty(message = "昵称不能为空")String nickname, String telnum, @Email(message = "请输入正确的邮箱地址！") String email, String sex, boolean pub, HttpServletRequest request, ReturnInfo r) {
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
         if (userinfo == null) {
             r.setInfo("请登录！");

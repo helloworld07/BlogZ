@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
 /**
  * Created by zcy on 2018/8/2.
  */
@@ -37,7 +41,8 @@ public class RegisterController {
 
     @RequestMapping("/adduser")
     @ResponseBody
-    public ReturnInfo adduser(ReturnInfo r,String username,String password,String email,String nickname,String telnum,String sex,ReturnInfo returnInfo){
+    public ReturnInfo adduser(ReturnInfo r, @NotEmpty(message = "用户名不能为空") String username, @Pattern(regexp = "^[A-Za-z0-9]{9,20}$",message = "请输入符合规范的密码！")String password, @Email(message = "请输入正确的邮箱地址！") String email, String nickname, String telnum, String sex, ReturnInfo returnInfo){
+        //此处已经升级为注解式validation验证机制
         if (("").equals(username)||("").equals(password)||("").equals(email)){
             r.setFlag(false);
             r.setInfo("有空值");
