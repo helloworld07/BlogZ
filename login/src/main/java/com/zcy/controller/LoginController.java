@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +27,8 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private LocalUser localUser;
     //登录逻辑，判断登录是否成功
     @RequestMapping("/check")
     @ResponseBody
@@ -41,6 +42,7 @@ public class LoginController {
             }else {
                 Userinfo userinfo = list.get(0);
                 request.getSession().setAttribute("userinfo",userinfo);
+//                localUser.setUserInfo(userinfo);
                 r.setFlag(true);
                 /*String nickname = userinfo.getNickname();
                 r.setFlag(true);

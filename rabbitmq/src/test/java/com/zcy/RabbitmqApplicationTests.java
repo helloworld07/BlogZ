@@ -25,7 +25,7 @@ public class RabbitmqApplicationTests {
 		while(true){
 			String msg = new Date().toString();
 			sender.send(msg);
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 		}
 	}
 

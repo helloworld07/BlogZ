@@ -57,7 +57,7 @@
                 分享插件 √
             
 
- 8. 用户行为轨迹： 
+ 8. 用户行为轨迹：  
  
                 AOP编入所有controller √
                 取得信息存入数据库 √
@@ -108,6 +108,9 @@
     因为ContentPipline中有springmvc注入的类，如果直接实例化，则没有用到依赖注入，所以ConetentPipline里的注入无效，导致这边也会nullpoint
     25.新闻页这块采用的WebMagic爬虫去爬取CSDN中首页的内容，存入redis缓存中，整合数据后直接用freemarker模板传回前台显示
     26.配置测试好了RabbitMQ,但还没有地方可以使用，相关内容在rabbitmq包里，配置文件在web里
+        添加赞的功能加入了rabbitmq，
+        尝试将刷新缓存加入队列，但发现request无法在队列接收方优雅的获取
+        http://localhost:15672
     27.博客详情页初始设计时功能并没那么多，后面添加共那功能模块时候出现排版问题
     28.用js有点本末倒置了，多数逻辑判断应该放在java后台里去判断，最终只用传一个值给前台即可
     29.分享插件里微信弹出二维码显示不完整
@@ -117,4 +120,5 @@
         （这里注意数据需要序列化才可存入redis）
     33.Druid数据源监控：http://localhost:8080/druid/login.html
         admin/admin
+        
 

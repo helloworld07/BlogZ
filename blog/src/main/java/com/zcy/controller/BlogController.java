@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,10 +31,13 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private LocalUser localUser;
     //获取文章列表
     @RequestMapping("/getpaper")
     public ReturnInfo getpaper(ReturnInfo r, HttpServletRequest request, ModelMap modelMap, int pageNum, int pageSize,String classify,@RequestParam(value = "usernum",required=false) String usernum) {
         Userinfo userinfo = (Userinfo) request.getSession().getAttribute("userinfo");
+//        Userinfo userinfo = localUser.getUserinfo();
         int userid = 0;
         if (userinfo!=null) {
             userid = userinfo.getId();

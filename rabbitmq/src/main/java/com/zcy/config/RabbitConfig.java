@@ -19,9 +19,14 @@ public class RabbitConfig {
     }
 
     @Bean
+    public Queue queueForZan(){
+        return new Queue("queueForZan");
+    }
+
+    /*@Bean
     public Queue queue2() {
         return new Queue("hello.queue2", true);
-    }
+    }*/
 
     //声明交互器
     @Bean
@@ -32,11 +37,12 @@ public class RabbitConfig {
     //绑定
     @Bean
     public Binding binding1() {
+        //将queue1绑定进名为topicExchange的Exchange，命名Routing key为key.1
         return BindingBuilder.bind(queue1()).to(topicExchange()).with("key.1");
     }
 
-    @Bean
+   /* @Bean
     public Binding binding2() {
         return BindingBuilder.bind(queue2()).to(topicExchange()).with("key.#");
-    }
+    }*/
 }

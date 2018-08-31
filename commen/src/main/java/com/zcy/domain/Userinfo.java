@@ -17,6 +17,9 @@ public class Userinfo implements Serializable{
     private String pub;
     private String collids;
 
+    public Userinfo() {
+    }
+
     public int getId() {
         return id;
     }

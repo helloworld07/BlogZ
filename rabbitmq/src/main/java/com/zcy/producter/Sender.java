@@ -27,7 +27,7 @@ public class Sender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.Re
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         if (ack) {
-            System.out.println("消息发送成功:" + correlationData);
+            //System.out.println("消息发送成功:" + correlationData);
         } else {
             System.out.println("消息发送失败:" + cause);
         }
@@ -50,4 +50,5 @@ public class Sender implements RabbitTemplate.ConfirmCallback, RabbitTemplate.Re
         System.out.println("结束发送消息 : " + msg.toLowerCase());
         System.out.println("消费者响应 : " + response + " 消息处理完成");
     }
+
 }

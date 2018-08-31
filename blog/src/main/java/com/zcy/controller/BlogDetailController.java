@@ -7,6 +7,8 @@ import com.zcy.domain.Userinfo;
 import com.zcy.service.BlogService;
 import com.zcy.utils.ReturnInfo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,8 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zcy on 2018/8/9.
@@ -130,17 +131,23 @@ public class BlogDetailController {
         return listr;
     }
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     //点赞加一
     @ResponseBody
     @RequestMapping("/addzan")
     public String addZan(String paperid){
         int i = Integer.parseInt(paperid);
-        int count = blogService.addZan(i);
+        /*int count = blogService.addZan(i);
         if(count<1){
             return "赞失败";
         }else {
             return "赞成功";
-        }
+        }*/
+        //rabbitmq发送
+        rabbitTemplate.convertAndSend("queueForZan", i);
+        return null;
     }
 
     //收藏文章
@@ -166,14 +173,14 @@ public class BlogDetailController {
             r.setInfo("收藏出现问题了！");
             return r;
         }
-        //刷新缓存，避免刚收藏的看不到
-        List<Userinfo> updateinfo = blogService.getUserById(userinfo.getId());
+        //刷新缓存
+        List<Userinfo> updateinfo = blogService.getUserById(user.getId());
         Userinfo userinfoupdate = updateinfo.get(0);
-        request.getSession().setAttribute("userinfo",userinfoupdate);
+        request.getSession().setAttribute("userinfo", userinfoupdate);
         return r;
     }
 
-    //收藏文章
+    //取消收藏文章
     @ResponseBody
     @RequestMapping("/calcoll")
     public ReturnInfo calColl(String paperid,HttpServletRequest request,ReturnInfo r){
@@ -201,9 +208,9 @@ public class BlogDetailController {
             return r;
         }
         //刷新缓存
-        List<Userinfo> updateinfo = blogService.getUserById(userinfo.getId());
+        List<Userinfo> updateinfo = blogService.getUserById(user.getId());
         Userinfo userinfoupdate = updateinfo.get(0);
-        request.getSession().setAttribute("userinfo",userinfoupdate);
+        request.getSession().setAttribute("userinfo", userinfoupdate);
         return r;
     }
 }
