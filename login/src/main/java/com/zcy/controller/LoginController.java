@@ -2,6 +2,7 @@ package com.zcy.controller;
 
 import com.zcy.domain.Userinfo;
 import com.zcy.service.LoginService;
+import com.zcy.service.RedisServiceImpl;
 import com.zcy.utils.ReturnInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    RedisServiceImpl redisService;
 
     @Autowired
     private LocalUser localUser;

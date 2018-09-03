@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <title>找回密码</title>
+    <script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="../toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../toastr/toastr.js"></script>
+    <script>
+        window.paceOptions = {
+            ajax: {
+                trackMethods: ['GET', 'POST']
+            }
+        }
+    </script>
+    <script src="../pace/pace.js"></script>
+    <link href="../pace/themes/pace-theme-minimal.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #6a8ab9;
+        }
+
+        .mycenter {
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            width: 600px;
+            padding: 5%;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+        .mycenter mysign {
+            width: 600px;
+        }
+
+        .mycenter input {
+            margin-top: 5%;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        .mycenter button {
+            margin-top: 5%;
+            margin-left: 50%;
+            margin-right: 10%;
+        }
+
+        .mycenter label {
+            margin-top: 0%;
+            margin-left: 25%;
+            margin-right: 10%;
+        }
+
+        .mycheckbox {
+            margin-top: 10px;
+            margin-left: 40%;
+            margin-bottom: 10px;
+            height: 30px;
+        }
+    </style>
+    <script type="text/javascript">
+        var nameflag = false;
+        var pwdflag = false;
+        var emailfalg = false;
+
+        function checkemail() {
+            var email = document.getElementById("email").value;
+            var reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+            if (!reg.test(email)) {
+                $("#tipemail").html("请输入正确的邮箱！");
+                $("#tipemail").css("color", "#F736ED");
+            } else {
+                $("#tipemail").html("邮箱合法！");
+                $("#tipemail").css("color", "#94F71B");
+                emailfalg = true;
+            }
+        }
+
+        //检查密码
+        function checkpwd() {
+            var reg = /^[A-Za-z0-9]{9,20}$/;
+            var password = document.getElementById("newpwd").value;
+            if (password == ""){
+                $("#tippwd").html("请输入密码！");
+                $("#tippwd").css("color","#F736ED");
+            }else if (!reg.test(password)){
+                $("#tippwd").html("请输入大于8位小于20位的字母与数字组合！");
+                $("#tippwd").css("color","#F736ED");
+            }else{
+                $("#tippwd").html("密码可使用！");
+                $("#tippwd").css("color","#94F71B");
+            }
+        }
+        function checkpwdaga() {
+            var password = document.getElementById("newpwd").value;
+            var pwdcheck = document.getElementById("newpwdaga").value;
+            if (pwdcheck == ""){
+                $("#pwdaga").html("密码为空！");
+                $("#pwdaga").css("color","#F736ED");
+                return false;
+            }
+            if (password == pwdcheck){
+                $("#pwdaga").html("输入密码正确！");
+                $("#pwdaga").css("color","#94F71B");
+                pwdflag =true;
+            }else{
+                $("#pwdaga").html("两次输入密码不一致！");
+                $("#pwdaga").css("color","#F736ED");
+            }
+        }
+
+        //提交修改密码
+        function pwdmodify() {
+            var newpwd = $("#newpwd").val();
+            var newpwdaga = $("#newpwdaga").val();
+            var userid = $("#userid").val();
+            var idyid = $("#idyid").val();
+            $.ajax({
+                type: "POST",
+                url: "/identify/chgpwd",
+                data:{newpwd:newpwd,newpwdaga:newpwdaga,userid:userid,idyid:idyid},
+                /*beforeSend:function()
+                 {
+                 toastr.info("修改中...");
+                 return true;
+                 },*/
+                success: function (result) {
+                    if (result.flag==true){
+                        toastr.success(result.info+"即将跳转至登录页面~");
+                        setTimeout(waittwo, 2000);
+                    }else {
+                        toastr.error(result.info);
+                    }
+                }
+            });
+        }
+
+        function waittwo() {
+            window.location.href="/page/login";
+        }
+
+        function send() {
+            //检查邮箱是否正确并发送验证码
+            var username = $("#username").val();
+            var email = $("#email").val();
+            if (username == "" || email == "") {
+                toastr.error("请输入登录名和注册邮箱！");
+                return false;
+            }
+            $.ajax({
+                url: '/identify/nametoemail',
+                type: 'POST',
+                data: {username: username, email: email},
+                success: function (result) {
+                    if (result.flag == true) {
+                        $("#chgpwd").click();
+                        $("#userid").attr("value",result.info);
+                    } else {
+                        toastr.error(result.info);
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="userid" style="display: none"/>
+<form id="from">
+    <div class="mycenter">
+        <div class="mysign">
+            <div class="col-lg-11 text-center text-info">
+                <h2>密码重置</h2>
+            </div>
+
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="username" name="username" placeholder="请输入登录名"
+                       required
+                       autofocus/>
+            </div>
+            <div class="col-lg-10 text-center" id="tipname">&nbsp
+            </div>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="email" name="email" placeholder="请输入您的注册邮箱地址"
+                       onblur="checkemail()"/>
+            </div>
+            <div class="col-lg-10 text-center" id="tipemail">&nbsp
+            </div>
+
+            <div class="col-lg-10">&nbsp
+            </div>
+            <div class="col-lg-10">
+                <div class="col-lg-5">
+                    <button type="button" id="btn" class="btn btn-success col-lg-12" onclick="send()">
+                        认证
+                    </button>
+                    <button style="display: none" type="button" class="btn btn-success" id="chgpwd" data-toggle="modal"
+                            data-target="#myModal">更改密码
+                    </button>
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <a type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </a>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        重置密码
+                                    </h4>
+                                    <h6>（请前往您的注册邮箱接收验证码并填写在下方相应输入框内，若没有收到，请稍后再试~）</h6>
+                                </div>
+                                <div class="modal-body" id="from1">
+
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="idyid" name="idyid"
+                                               placeholder="请输入发送到您邮箱内的验证码"
+                                               required
+                                               autofocus/>
+                                    </div>
+                                    <div class="col-lg-10 text-center">&nbsp</div>
+                                    <div class="col-lg-10">
+                                        <input type="password" class="form-control" id="newpwd" name="newpwd" placeholder="请输入您的新密码" onblur="checkpwd()"
+                                               required
+                                               />
+
+                                    </div>
+                                    <div class="col-lg-10 text-center"> <p id="tippwd">&nbsp;</p></div>
+                                    <div class="col-lg-10">
+                                        <input type="password" class="form-control" id="newpwdaga" name="newpwdaga" placeholder="请再次输入您的新密码" onblur="checkpwdaga()"
+                                               required
+                                               />
+
+                                    </div>
+                                    <div class="col-lg-10 text-center"><p id="pwdaga">&nbsp;</p></div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="pwdmodify()">
+                                        修改
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <button type="button" id="btn1" class="btn form-control" onclick="location='../page/login'">
+                        取消
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>

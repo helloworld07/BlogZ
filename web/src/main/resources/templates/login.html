@@ -81,6 +81,9 @@
                 })
         }
 
+        function show() {
+            $("#example").modal('show');
+        }
 
     </script>
 </head>
@@ -116,6 +119,12 @@
                 <button type="button" id="btn" class="btn btn-success col-lg-12" onclick="check()">
                     登录
                 </button>
+            </div>
+            <div class="col-lg-10">
+                <button type="button" id="btn2" class="btn btn-primary col-lg-12" onclick="location='forget.html'">
+                    忘记密码
+                </button>
+                </div>
             </div>
             <div class="col-lg-10">
                 <button type="button" id="btn1" class="btn form-control" onclick="location='register.html'">

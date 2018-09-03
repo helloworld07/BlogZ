@@ -9,6 +9,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -49,4 +51,20 @@ public class Receiver {
         }
     }
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @RabbitListener(queues = "qForEmail")
+    public void receiverForEmail(String component){
+        //拆分组件
+        String VerifiCode = component.substring(0,6);
+        String sendTo = component.substring(6,component.length());
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("2329986440@qq.com");//官方邮箱地址
+        message.setTo(sendTo);
+        message.setSubject("BlogZ Verification Code");
+        message.setText("Hello, This is a system Email from BlogZ , you Verification Code is \n"+
+        VerifiCode+"\n (The verification code is only valid for 5 minutes.)\n If it is not for you, please change the password as soon as possible.");
+        javaMailSender.send(message);
+    }
 }

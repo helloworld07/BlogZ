@@ -23,6 +23,10 @@ public class RabbitConfig {
         return new Queue("queueForZan");
     }
 
+    @Bean
+    public Queue quereForEmail(){
+        return new Queue("qForEmail");
+    }
     /*@Bean
     public Queue queue2() {
         return new Queue("hello.queue2", true);

@@ -97,7 +97,7 @@ public class RedisServiceImpl {
     }
 
     // 为key赋值，同时设置过期时间
-    public void set(String key, String value, long time) {
+    public void setForString(String key, String value, long time) {
         BoundValueOperations<String, String> ops = stringRedisTemplate.boundValueOps(key);
         ops.set(value, time, TimeUnit.SECONDS);
     }
