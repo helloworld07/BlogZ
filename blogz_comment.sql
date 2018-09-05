@@ -22,15 +22,13 @@ INSERT INTO blogz.comment (paperid, content, pubid, flag, pubtime, replyid) VALU
 INSERT INTO blogz.comment (paperid, content, pubid, flag, pubtime, replyid) VALUES (38, '感谢！', '5', '1', '2018-08-17 15:57:47', 20);
 INSERT INTO blogz.comment (paperid, content, pubid, flag, pubtime, replyid) VALUES (2, '我来评论了！', '5', '1', '2018-08-17 15:58:29', 0);
 
-create table comment
+CREATE TABLE blogz.comment
 (
-  id INT(10) auto_increment comment 'id'
-    primary key,
-  paperid INT(10) not null comment '对应文章的id',
-  content VARCHAR(3000) null comment '评论内容',
-  pubid VARCHAR(300) null comment '评论者id',
-  flag VARCHAR(10) default '1' null,
-  pubtime TIMESTAMP(19) default CURRENT_TIMESTAMP null,
-  replyid INT(10) default 0 null comment '回复评论id'
-)
-;
+  id INT PRIMARY KEY NOT NULL COMMENT 'id' AUTO_INCREMENT,
+  paperid INT NOT NULL COMMENT '对应文章的id',
+  content VARCHAR(3000) COMMENT '评论内容',
+  pubid VARCHAR(300) COMMENT '评论者id',
+  flag VARCHAR(10) DEFAULT '1',
+  pubtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  replyid INT DEFAULT 0 COMMENT '回复评论id'
+);

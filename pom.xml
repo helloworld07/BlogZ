@@ -103,11 +103,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--shiro-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.shiro</groupId>-->
-        <!--<artifactId>shiro-spring</artifactId>-->
-        <!--<version>1.4.0</version>-->
-        <!--</dependency>-->
+        <!--<dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-spring</artifactId>
+        <version>1.4.0</version>
+        </dependency>-->
         <!--mysql数据库连接-->
         <dependency>
             <groupId>mysql</groupId>

@@ -37,17 +37,15 @@ INSERT INTO blogz.paper (title, content, pubtime, flag, author, userid, classify
 INSERT INTO blogz.paper (title, content, pubtime, flag, author, userid, classify, zan) VALUES ('11111', '<p><img src="http://localhost:8080/uploadimgs/1534153442064.png" title="1534153442064.png" alt="1534153442064.png"/></p>', '2018-08-13 17:44:07', '0', '管理员', 2, '1', 0);
 INSERT INTO blogz.paper (title, content, pubtime, flag, author, userid, classify, zan) VALUES ('guest007的一篇博客', '<p><img src="http://localhost:8080/uploadimgs/1534492605604.jpg" title="1534492605604.jpg" alt="1534492605604.jpg"/></p><p>放一个图片看看</p><p><br/></p><p>这是第一篇博客，欢迎评论！</p>', '2018-08-17 15:57:11', '0', '007guest', 5, '3', 1);
 
-create table paper
+CREATE TABLE blogz.paper
 (
-  id INT(10) auto_increment comment 'id'
-    primary key,
-  title VARCHAR(50) default '' not null comment '标题',
-  content VARCHAR(5000) default '' not null comment '内容',
-  pubtime TIMESTAMP(19) default CURRENT_TIMESTAMP null comment '发布时间',
-  flag VARCHAR(50) default '0' null comment '标记位',
-  author VARCHAR(200) default '' not null comment '作者',
-  userid INT(10) null,
-  classify VARCHAR(500) null comment '分类',
-  zan INT(10) default 0 null
-)
-;
+  id INT PRIMARY KEY NOT NULL COMMENT 'id' AUTO_INCREMENT,
+  title VARCHAR(50) DEFAULT '' NOT NULL COMMENT '标题',
+  content VARCHAR(5000) DEFAULT '' NOT NULL COMMENT '内容',
+  pubtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
+  flag VARCHAR(50) DEFAULT '0' COMMENT '标记位',
+  author VARCHAR(200) DEFAULT '' NOT NULL COMMENT '作者',
+  userid INT,
+  classify VARCHAR(500) COMMENT '分类',
+  zan INT DEFAULT 0
+);
