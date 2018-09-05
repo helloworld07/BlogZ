@@ -90,7 +90,32 @@
                 <li><a href=""></a></li>
                 <li><a href="../page/blogpage.html">博客</a></li>
                 <li><a href=""></a></li>
-                <li><a href="">我们</a></li>
+                <li><a href="" data-toggle="modal" data-target="#myModal">我们</a></li>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <a type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </a>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    联系我们
+                                </h4>
+                            </div>
+                            <div class="modal-body" id="from1">
+                                <h4>如果您有任何疑问或建议，都可以联系我们：</h4>
+                                <textarea id="input" style="display: none"></textarea>
+                                <a onclick="copy()" href="#" id="copytext">2329986440@qq.com</a>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">知道了
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
             </ul>
         </div>
     </div>

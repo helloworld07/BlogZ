@@ -15,14 +15,14 @@
     <meta charset="utf-8">
     <title>BlogZ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="../css/site.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
-    <link href="../toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="../toastr/toastr.js" ></script>
+    <script type="text/javascript" src="../toastr/toastr.js"></script>
     <script>
         window.paceOptions = {
             ajax: {
@@ -31,7 +31,7 @@
         }
     </script>
     <script src="../pace/pace.js"></script>
-    <link href="../pace/themes/pace-theme-minimal.css" rel="stylesheet" />
+    <link href="../pace/themes/pace-theme-minimal.css" rel="stylesheet"/>
 </head>
 <script type="text/javascript">
     //初始化
@@ -45,33 +45,33 @@
                     $("#l1").html("<a href='../page/login'>" + result.info + "</a>");
                     l2.style.visibility = 'hidden';
                 } else {
-                    $("#l1").html("<a href='/modify/getperinfo?perid="+result.id+"'>" + result.info + "</a>");
-                    classifyli +="<li id='li4'><a href='#' onclick='classify(4)'><i class='icon-lock'></i>  私密</a></li>" +
+                    $("#l1").html("<a href='/modify/getperinfo?perid=" + result.id + "'>" + result.info + "</a>");
+                    classifyli += "<li id='li4'><a href='#' onclick='classify(4)'><i class='icon-lock'></i>  私密</a></li>" +
                         "<li id='li5'><a href='#' onclick='classify(5)'><i class='icon-inbox'></i>  我的博客</a></li>";
                 }
             }
         });
         //初始化文章列表
-        getpaper(pageNum,classifyidall);
+        getpaper(pageNum, classifyidall);
         //初始化文章分类
         paperclass();
     });
 
     //获取文章列表和分页信息
-    var pageNum= 1;
-    var pageSize =5;
+    var pageNum = 1;
+    var pageSize = 5;
     var pagenext;
     var pagepre;
     var firstpage;
     var endpage;
-    function getpaper(pageNum,classifyidall) {
+    function getpaper(pageNum, classifyidall) {
         $.ajax({
             url: '/blog/getpaper',
             type: 'POST',
-            data: {pageNum:pageNum,pageSize:pageSize,classify:classifyidall},
+            data: {pageNum: pageNum, pageSize: pageSize, classify: classifyidall},
             success: function (result) {
                 console.log(result);
-                if (result.flag==false){
+                if (result.flag == false) {
                     toastr.warning(result.info);
                 }
                 pagenext = result.pageinfo.nextPage;
@@ -86,7 +86,7 @@
                     var month = d.getMonth() + 1;
                     var day = d.getDate();
                     //console.log(new Date(result.list[i].pubtime));
-                    group += "<li>&nbsp</li><li><a class='title' target='_blank' href='/detail/page?id="+result.list[i].id+"' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
+                    group += "<li>&nbsp</li><li><a class='title' target='_blank' href='/detail/page?id=" + result.list[i].id + "' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
                         "<p class='messages' href='#' id='content'>" + result.list[i].content.substring(0, 200) + "......" + "</p>" +
                         "<span class='meta'>发布者： <em id='author'>" + result.list[i].author + "</em> &nbsp; &nbsp;| &nbsp; &nbsp;" +
                         "发布于： <span id='buptime'>" + year + "-" + month + "-" + day + "</span></span></li>";
@@ -95,24 +95,24 @@
                 group = "";//flush();
                 $("#s1").html(pageno);
                 $("#s2").html(pages);
-                $("#a1").attr("onclick","pageset("+pagenext+")");
-                $("#a2").attr("onclick","pageset("+pagepre+")");
-                $("#a3").attr("onclick","pageset("+firstpage+")");
-                $("#a4").attr("onclick","pageset("+endpage+")");
-                for(var i=4;i<8;i++){
-                    $("#l"+i).attr("class","");
+                $("#a1").attr("onclick", "pageset(" + pagenext + ")");
+                $("#a2").attr("onclick", "pageset(" + pagepre + ")");
+                $("#a3").attr("onclick", "pageset(" + firstpage + ")");
+                $("#a4").attr("onclick", "pageset(" + endpage + ")");
+                for (var i = 4; i < 8; i++) {
+                    $("#l" + i).attr("class", "");
                 }
-                if (pagenext==0){
-                    $("#l6").attr("class","active");
-                    $("#l7").attr("class","active");
-                    $("#a1").attr("onclick","");
-                    $("#a4").attr("onclick","");
+                if (pagenext == 0) {
+                    $("#l6").attr("class", "active");
+                    $("#l7").attr("class", "active");
+                    $("#a1").attr("onclick", "");
+                    $("#a4").attr("onclick", "");
                 }
-                if (pagepre==0){
-                    $("#l4").attr("class","active");
-                    $("#l5").attr("class","active");
-                    $("#a2").attr("onclick","");
-                    $("#a3").attr("onclick","");
+                if (pagepre == 0) {
+                    $("#l4").attr("class", "active");
+                    $("#l5").attr("class", "active");
+                    $("#a2").attr("onclick", "");
+                    $("#a3").attr("onclick", "");
                 }
             }
         })
@@ -120,24 +120,24 @@
     //加载分页文章信息
     var group = '';
     function pageset(pageNum) {
-        getpaper(pageNum,classifyidall)
+        getpaper(pageNum, classifyidall)
     }
     //由原url参数分页改为局部刷新分页
     /*$(function () {
-        //用于分页取参
-        var url = location.search;
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            strs = str.split("&");
-            for(var i = 0; i < strs.length; i ++) {
-                pageNum = strs[i].split("=")[1];
-            }
-        }
-        getpaper(pageNum,classifyidall);
-    });*/
+     //用于分页取参
+     var url = location.search;
+     if (url.indexOf("?") != -1) {
+     var str = url.substr(1);
+     strs = str.split("&");
+     for(var i = 0; i < strs.length; i ++) {
+     pageNum = strs[i].split("=")[1];
+     }
+     }
+     getpaper(pageNum,classifyidall);
+     });*/
 
     //加载文章分类
-    var classifyli='';
+    var classifyli = '';
     function paperclass() {
         $.ajax({
             type: "POST",
@@ -146,10 +146,10 @@
                 //console.log(result.list[0]);
                 if (result.list.length > 0) {
                     for (var i in result.list) {
-                        classifyli += "<li id='li"+result.list[i].id+"'><a href='#' onclick='classify("+result.list[i].id+")'><i class='"+result.list[i].icon+"'></i> "+ result.list[i].name+"</a></li>";
+                        classifyli += "<li id='li" + result.list[i].id + "'><a href='#' onclick='classify(" + result.list[i].id + ")'><i class='" + result.list[i].icon + "'></i> " + result.list[i].name + "</a></li>";
                     }
                     $("#u1").html(classifyli);
-                    classifyli="";
+                    classifyli = "";
                 }
             }
         });
@@ -160,13 +160,13 @@
     function classify(classifyid) {
         classifyidall = classifyid;
         //flush,10个为写死的数据
-        for (var i=1;i<10;i++) {
+        for (var i = 1; i < 10; i++) {
             $("#li" + i).attr("class", "");
         }
-        $("#li"+classifyidall).attr("class","active");
-        getpaper(1,classifyidall);
+        $("#li" + classifyidall).attr("class", "active");
+        getpaper(1, classifyidall);
     }
-    
+
     //跳转至个人信息
     function toprofile() {
         $.ajax({
@@ -182,6 +182,18 @@
             }
         });
     }
+
+    //复制文本
+    function copy() {
+        var text = document.getElementById("copytext").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = text;
+        document.body.appendChild(oInput);
+        oInput.select();
+        document.execCommand("copy"); // 执行浏览器复制命令
+        alert("复制成功");
+    }
+
 </script>
 <body>
 <div class="container">
@@ -199,9 +211,9 @@
                         <li class="active">
                             <a href="blogpage.html">博客</a>
                         </li>
-                        <li>
+                        <!--<li>
                             <a href="">帮助</a>
-                        </li>
+                        </li>-->
                         <!--<li class="dropdown">
                             <a href="help.htm" class="dropdown-toggle" data-toggle="dropdown">Tours <b
                                     class="caret"></b></a>
@@ -265,28 +277,53 @@
                     </li>
                     <div>
                         <ul class="nav nav-list" id="u2">
-                    <li>
-                        <a href="javascript:void();" onclick="toprofile()"><i class="icon-user"></i> 个人信息</a>
-                    </li>
-                    <li>
-                        <a href=""><i class="icon-cog"></i> 设置</a>
-                    </li>
-                    <li>
-                        <a href="../page/blogwrite.html"><i class="icon-pencil"></i>写博客</a>
-                    </li>
+                            <li>
+                                <a href="javascript:void();" onclick="toprofile()"><i class="icon-user"></i> 个人信息</a>
+                            </li>
+                            <!--<li>
+                                <a href=""><i class="icon-cog"></i> 设置</a>
+                            </li>-->
+                            <li>
+                                <a href="../page/blogwrite.html"><i class="icon-pencil"></i>写博客</a>
+                            </li>
                         </ul>
                     </div>
                     <li class="divider">
                     </li>
-                    <li>
+                    <!--<li>
                         <a href=""><i class="icon-info-sign"></i> 帮助</a>
                     </li>
-                    <li class="divider">
+                    <li class="divider">-->
                     <li class="nav-header">
                         联系我们
                     </li>
                     <li>
-                        <a href=""><i class="icon-book"></i> 邮箱地址</a>
+                        <a href="" data-toggle="modal" data-target="#myModal"><i class="icon-book"></i> 邮箱地址</a>
+                        <!-- 模态框（Modal） -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <a type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </a>
+                                        <h4 class="modal-title" id="myModalLabel">
+                                            联系我们
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body" id="from1">
+                                        <h4>如果您有任何疑问或建议，都可以联系我们：</h4>
+                                        <textarea id="input" style="display: none"></textarea>
+                                        <a onclick="copy()" href="#" id="copytext">2329986440@qq.com</a>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">知道了
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -318,7 +355,7 @@
                 </ul>
             </div>
             <ul class="pager">
-                -- Copyright owner <a href="">BlogZ</a> --
+                -- Copyright owner <a href="" data-toggle="modal" data-target="#myModal">BlogZ</a> --
             </ul>
         </div>
     </div>

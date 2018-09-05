@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * 验证邮箱重置密码
  * Created by zcy on 2018/9/3.
  */
 @RestController
