@@ -22,6 +22,7 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <script src="../jQuery/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <link href="../toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="../toastr/toastr.js"></script>
     <script>
         window.paceOptions = {
@@ -38,14 +39,14 @@
     $(function () {
         //加载用户名
         $.ajax({
-            url: '/page/getinfo',
+            url: '../page/getinfo',
             type: 'POST',
             success: function (result) {
                 if (result.flag == false) {
                     $("#l1").html("<a href='../page/login'>" + result.info + "</a>");
                     l2.style.visibility = 'hidden';
                 } else {
-                    $("#l1").html("<a href='/modify/getperinfo?perid=" + result.id + "'>" + result.info + "</a>");
+                    $("#l1").html("<a href='../modify/getperinfo?perid=" + result.id + "'>" + result.info + "</a>");
                     classifyli += "<li id='li4'><a href='#' onclick='classify(4)'><i class='icon-lock'></i>  私密</a></li>" +
                         "<li id='li5'><a href='#' onclick='classify(5)'><i class='icon-inbox'></i>  我的博客</a></li>";
                 }
@@ -66,7 +67,7 @@
     var endpage;
     function getpaper(pageNum, classifyidall) {
         $.ajax({
-            url: '/blog/getpaper',
+            url: '../blog/getpaper',
             type: 'POST',
             data: {pageNum: pageNum, pageSize: pageSize, classify: classifyidall},
             success: function (result) {
@@ -86,7 +87,7 @@
                     var month = d.getMonth() + 1;
                     var day = d.getDate();
                     //console.log(new Date(result.list[i].pubtime));
-                    group += "<li>&nbsp</li><li><a class='title' target='_blank' href='/detail/page?id=" + result.list[i].id + "' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
+                    group += "<li>&nbsp</li><li><a class='title' target='_blank' href='../detail/page?id=" + result.list[i].id + "' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
                         "<p class='messages' href='#' id='content'>" + result.list[i].content.substring(0, 200) + "......" + "</p>" +
                         "<span class='meta'>发布者： <em id='author'>" + result.list[i].author + "</em> &nbsp; &nbsp;| &nbsp; &nbsp;" +
                         "发布于： <span id='buptime'>" + year + "-" + month + "-" + day + "</span></span></li>";
@@ -141,7 +142,7 @@
     function paperclass() {
         $.ajax({
             type: "POST",
-            url: "/blog/getclassify",
+            url: "../blog/getclassify",
             success: function (result) {
                 //console.log(result.list[0]);
                 if (result.list.length > 0) {
@@ -170,14 +171,14 @@
     //跳转至个人信息
     function toprofile() {
         $.ajax({
-            url: '/page/getinfo',
+            url: '../page/getinfo',
             type: 'POST',
             success: function (result) {
                 if (result.flag == false) {
                     toastr.error("请先登录！");
                     return false;
                 } else {
-                    window.location.href = "/modify/getuserinfo";
+                    window.location.href = "../modify/getuserinfo";
                 }
             }
         });
@@ -202,11 +203,11 @@
             <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span
                         class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a
-                    class="brand" href="/home/page">BlogZ</a>
+                    class="brand" href="../home/page">BlogZ</a>
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li>
-                            <a href="/home/page">首页</a>
+                            <a href="../home/page">首页</a>
                         </li>
                         <li class="active">
                             <a href="blogpage.html">博客</a>
@@ -252,7 +253,7 @@
 
                         </li>
                         <li id="l2">
-                            <a href="/page/logout">Logout</a>
+                            <a href="../page/logout">Logout</a>
                         </li>
                     </ul>
                 </div>

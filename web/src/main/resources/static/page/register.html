@@ -69,7 +69,7 @@
         function checkname() {
             var username = document.getElementById("username").value;
             $.ajax({
-                url: '/register/checkname',
+                url: '../register/checkname',
                 type: 'POST',
                 data: {username: username},
                 success: function (result) {
@@ -147,7 +147,7 @@
             var sex = $("input[name='optionsRadiosinline']:checked").val();
             if (nameflag ==true && pwdflag==true && emailfalg==true){
                 $.ajax({
-                    url: '/register/adduser',
+                    url: '../register/adduser',
                     type: 'POST',
                     data: {username: username, password: password,email:email,nickname:nickname,telnum:telnum,sex:sex},
                     success: function (result) {

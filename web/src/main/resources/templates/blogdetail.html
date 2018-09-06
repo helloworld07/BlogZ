@@ -82,7 +82,7 @@
                 num += 1;
                 praise_txt.text(num);
                 $.ajax({
-                    url: '/detail/addzan',
+                    url: '../detail/addzan',
                     type: 'POST',
                     data: {paperid: contentid},
                     success: function (res) {
@@ -125,7 +125,7 @@
     $(function () {
         //加载用户名
         $.ajax({
-            url: '/page/getinfo',
+            url: '../page/getinfo',
             type: 'POST',
             success: function (result) {
                 if (result.flag == false) {
@@ -157,7 +157,7 @@
             return false;
         }
         $.ajax({
-            url: '/detail/addcomment',
+            url: '../detail/addcomment',
             type: 'POST',
             data: {content: content, paperid: paperid, commentid: commentid},
             success: function (res) {
@@ -190,7 +190,7 @@
             return false;
         }
         $.ajax({
-            url: '/detail/addcomment',
+            url: '../detail/addcomment',
             type: 'POST',
             data: {content: content, paperid: paperid, commentid: commentid},
             success: function (res) {
@@ -209,7 +209,7 @@
     //提示登录才可评论
     function check() {
         $.ajax({
-            url: '/page/getinfo',
+            url: '../page/getinfo',
             type: 'POST',
             success: function (result) {
                 if (result.flag == false) {
@@ -224,7 +224,7 @@
     function delcomment(id) {
         var userid = [[${pagelist[0].userid}]];
         $.ajax({
-            url: '/detail/delcomment',
+            url: '../detail/delcomment',
             data: {userid: userid, commentid: id},
             type: 'POST',
             success: function (res) {
@@ -244,7 +244,7 @@
     var opt = "";
     function replydetail(id) {
         $.ajax({
-            url: '/detail/getreply',
+            url: '../detail/getreply',
             data: {replyid: id},
             type: 'POST',
             success: function (res) {
@@ -274,7 +274,7 @@
             $("#btn1").removeClass("btn btn-small");
             $("#btn1").addClass("btn btn-small active");
             $.ajax({
-                url:'/detail/addcoll',
+                url:'../detail/addcoll',
                 type:'POST',
                 data:{paperid:[[${pagelist[0].id}]]},
                 success:function (res) {
@@ -291,7 +291,7 @@
             $("#btn1").removeClass("btn btn-small active");
             $("#btn1").addClass("btn btn-small");
             $.ajax({
-                url:'/detail/calcoll',
+                url:'../detail/calcoll',
                 type:'POST',
                 data:{paperid:[[${pagelist[0].id}]]},
                 success:function (res) {
@@ -313,11 +313,11 @@
             <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span
                         class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a
-                    class="brand" href="/home/page">BlogZ</a>
+                    class="brand" href="../home/page">BlogZ</a>
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li>
-                            <a href="/home/page">首页</a>
+                            <a href="../home/page">首页</a>
                         </li>
                         <li class="active">
                             <a href="../page/blogpage.html">博客</a>
@@ -331,7 +331,7 @@
 
                         </li>
                         <li id="l2">
-                            <a href="/page/logout">Logout</a>
+                            <a href="../page/logout">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -367,7 +367,7 @@
     <br/><br/>
     <!--点赞-->
     <div class="praise">
-        <span id="praise"><img src="/uploadimgs/yizan.png" id="praise-img" class="animation"></span>
+        <span id="praise"><img src="../uploadimgs/yizan.png" id="praise-img" class="animation"></span>
         <span id="praise-txt" class="hover" th:text="${pagelist[0].zan}">777</span>
         <!--<span id="add-num" style="display: inline;"><em class="add-animation hover">+1</em></span>-->
     </div>
@@ -433,11 +433,11 @@
         <div class="pagination" align="center" th:if=" ${pageInfo.pages} ne '0'">
             <ul id="ul1">
                 <li id="l4" th:if=" ${pageInfo.prePage} ne '0'">
-                    <a href="#" th:href="@{'/detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.firstPage}}"
+                    <a href="#" th:href="@{'../detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.firstPage}}"
                        id="a3">最前页</a>
                 </li>
                 <li id="l5" th:if=" ${pageInfo.prePage} ne '0'">
-                    <a href="#" th:href="@{'/detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.prePage}}"
+                    <a href="#" th:href="@{'../detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.prePage}}"
                        id="a2">上一页</a>
                 </li>
                 <li class="active" th:if=" ${pageInfo.prePage} eq '0'">
@@ -451,11 +451,11 @@
                                                                                   th:text="${pageInfo.pages}"></span>页</a>
                 </li>
                 <li id="l6" th:if=" ${pageInfo.nextPage} ne '0'">
-                    <a href="#" th:href="@{'/detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.nextPage}}"
+                    <a href="#" th:href="@{'../detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.nextPage}}"
                        id="a1">下一页</a>
                 </li>
                 <li id="l7" th:if=" ${pageInfo.nextPage} ne '0'">
-                    <a href="#" th:href="@{'/detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.lastPage}}"
+                    <a href="#" th:href="@{'../detail/page?id='+${pagelist[0].id}+'&pageNum='+${pageInfo.lastPage}}"
                        id="a4">最后页</a>
                 </li>
                 <li class="active" th:if=" ${pageInfo.nextPage} eq '0'">

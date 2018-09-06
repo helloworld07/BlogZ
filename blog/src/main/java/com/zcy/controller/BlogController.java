@@ -149,10 +149,14 @@ public class BlogController {
         // 这里我使用随机字符串来重新命名图片
         fileName = Calendar.getInstance().getTimeInMillis() + random.nextInt(10) + suffixName;
         // 这里的路径为Nginx的代理路径，这里是/data/images/xxx.png
-        //这个地方springboot每次启动存放的文件夹都会变化，所以图片会出现取不到的情况,所以没有使用realPath去获取绝对路径
-        //String realPath = request.getSession().getServletContext().getRealPath("/");
+
+        //pro
+        String realPath = request.getSession().getServletContext().getRealPath("/");
+        File dest = new File(realPath+"uploadimgs/"+fileName);
+
         //在本地使用项目全路径的方式配置到项目内，便于提交项目和图片(但是需要重启后才可以看到图片)
-        File dest = new File("E:\\SpringMVCDemo\\BlogZ\\web\\src\\main\\resources\\static\\uploadimgs\\" + fileName);
+//        File dest = new File("E:\\SpringMVCDemo\\BlogZ\\web\\src\\main\\resources\\static\\uploadimgs\\" + fileName);
+
         // 检测是否存在目录
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
@@ -161,7 +165,7 @@ public class BlogController {
             file.transferTo(dest);
             //url的值为图片的实际访问地址 这里我用了Nginx代理，访问的路径是http://localhost/xxx.png
             String config = "{\"state\": \"SUCCESS\"," +
-                    "\"url\": \"" + "http://localhost:8080/uploadimgs/" + fileName + "\"," +
+                    "\"url\": \"" + "http://103.45.99.88:8080/blogz-web/uploadimgs/" + fileName + "\"," +
                     "\"title\": \"" + fileName + "\"," +
                     "\"original\": \"" + fileName + "\"}";
             return config;

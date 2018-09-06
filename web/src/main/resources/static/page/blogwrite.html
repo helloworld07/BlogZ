@@ -38,7 +38,7 @@
     //加载用户名
     $(function () {
         $.ajax({
-            url: '/page/getinfo',
+            url: '../page/getinfo',
             type: 'POST',
             success: function (result) {
                 if (result.flag == false) {
@@ -46,7 +46,7 @@
                     l2.style.visibility = 'hidden';
                     toastr.error('您还没有登录，登录后才可提交博客~');
                 } else {
-                    $("#l1").html("<a href='/modify/getperinfo?perid="+result.id+"'>" + result.info + "</a>");
+                    $("#l1").html("<a href='../modify/getperinfo?perid="+result.id+"'>" + result.info + "</a>");
                 }
             }
         })
@@ -58,7 +58,7 @@
         obj.options.length = 0;
         $.ajax({
             type: "POST",
-            url: "/blog/getclassify",
+            url: "../blog/getclassify",
             success: function (result) {
                 //console.log(result.list[0]);
                 if (result.list.length > 0) {
@@ -71,7 +71,7 @@
             }
         });
     });
-    
+
     function submitblog() {
         var title = document.getElementById("title").value;
         var content = UE.getEditor('contentblog').getContent();
@@ -92,7 +92,7 @@
             return false;
         }
         $.ajax({
-            url: '/blog/commmitblog',
+            url: '../blog/commmitblog',
             type: 'POST',
             data:{title:title,content:content,flag:flag,classify:classify},
             success:function (result) {
@@ -152,7 +152,7 @@ var ue = UE.getEditor('contentblog', {
 UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
 UE.Editor.prototype.getActionUrl = function(action) {
     if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
-        return 'http://localhost:8080/blog/imgUpdate'; //在这里返回我们实际的上传图片地址
+        return 'http://103.45.99.88:8080/blogz-web/blog/imgUpdate'; //在这里返回我们实际的上传图片地址
     } else {
         return this._bkGetActionUrl.call(this, action);
     }
@@ -165,11 +165,11 @@ UE.Editor.prototype.getActionUrl = function(action) {
             <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span
                         class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a
-                    class="brand" href="/home/page">BlogZ</a>
+                    class="brand" href="../home/page">BlogZ</a>
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li>
-                            <a href="/home/page">首页</a>
+                            <a href="../home/page">首页</a>
                         </li>
                         <li class="active">
                             <a href="blogpage.html">博客</a>
@@ -182,7 +182,7 @@ UE.Editor.prototype.getActionUrl = function(action) {
                         <li id="l1">
                         </li>
                         <li id="l2">
-                            <a href="/page/logout">Logout</a>
+                            <a href="../page/logout">Logout</a>
                         </li>
                     </ul>
                 </div>
