@@ -74,8 +74,8 @@
             var praise_txt = $("#praise-txt");
             var contentid = $("#contentid").text();
             var num = parseInt(praise_txt.text());
-            if (praise_img.attr("src") == ("/uploadimgs/yizan.png")) {
-                $(this).html("<img src='/uploadimgs/zan.png' id='praise-img' class='animation' />");
+            if (praise_img.attr("src") == ("../uploadimgs/yizan.png")) {
+                $(this).html("<img src='../uploadimgs/zan.png' id='praise-img' class='animation' />");
                 praise_txt.removeClass("hover");
                 text_box.show().html("<em class='add-animation'>+1</em>");
                 $(".add-animation").removeClass("hover");
@@ -90,7 +90,7 @@
                     }
                 });
             } else {
-                $(this).html("<img src='/uploadimgs/yizan.png' id='praise-img' class='animation' />");
+                $(this).html("<img src='../uploadimgs/yizan.png' id='praise-img' class='animation' />");
                 praise_txt.addClass("hover");
                 text_box.show().html("<em class='add-animation'>-1</em>");
                 $(".add-animation").addClass("hover");

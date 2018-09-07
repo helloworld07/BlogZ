@@ -57,6 +57,17 @@
             interval: 5000,
         });
     });
+
+    //复制文本
+    function copy() {
+        var text = document.getElementById("copytext").innerText;
+        var oInput = document.createElement('input');
+        oInput.value = text;
+        document.body.appendChild(oInput);
+        oInput.select();
+        document.execCommand("copy"); // 执行浏览器复制命令
+        alert("复制成功");
+    }
 </script>
 <style>
     #myCarousel {
@@ -75,6 +86,16 @@
 
     h2{
         font-size: 20px;
+    }
+
+    .modal-backdrop {
+        position: initial;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1040;
+        background-color: #000;
     }
 </style>
 <body>

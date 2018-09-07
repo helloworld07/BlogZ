@@ -152,7 +152,10 @@ public class BlogController {
 
         //pro
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        File dest = new File(realPath+"uploadimgs/"+fileName);
+        //服务器路径
+        File dest = new File("/usr/tomcat/apache-tomcat-8.5.13/webapps/img/"+fileName);
+        //项目内路径，不方便重新部署
+//        File dest = new File(realPath+"uploadimgs/"+fileName);
 
         //在本地使用项目全路径的方式配置到项目内，便于提交项目和图片(但是需要重启后才可以看到图片)
 //        File dest = new File("E:\\SpringMVCDemo\\BlogZ\\web\\src\\main\\resources\\static\\uploadimgs\\" + fileName);

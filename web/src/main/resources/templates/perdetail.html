@@ -85,7 +85,7 @@
                     var day = d.getDate();
                     //console.log(new Date(result.list[i].pubtime));
                     group += "<li>&nbsp</li><li><a class='title' target='_blank' href='../detail/page?id=" + result.list[i].id + "' id='title'><h4><i class='icon-file'><h4>&nbsp</h4></i>" + result.list[i].title + "</h4></a>" +
-                        "<p class='messages' href='#' id='content'>" + result.list[i].content.substring(0, 200) + "......" + "</p>" +
+                        "<p class='messages' href='#' id='content'>" + result.list[i].content.replace(/<img(.*?)>/g, '[图片]').substring(0, 200) + "......" + "</p>" +
                         "<span class='meta'>发布者： <em id='author'>" + result.list[i].author + "</em> &nbsp; &nbsp;| &nbsp; &nbsp;" +
                         "发布于： <span id='buptime'>" + year + "-" + month + "-" + day + "</span></span></li>";
                 }
@@ -222,9 +222,9 @@
                             <li class="active">
                                 <a href="javascript:void();" onclick="toprofile()"><i class="icon-user"></i> 个人信息</a>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href=""><i class="icon-cog"></i> 设置</a>
-                            </li>
+                            </li>-->
                             <li>
                                 <a href="../page/blogwrite.html"><i class="icon-pencil"></i>写博客</a>
                             </li>
