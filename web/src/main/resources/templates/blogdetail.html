@@ -74,8 +74,8 @@
             var praise_txt = $("#praise-txt");
             var contentid = $("#contentid").text();
             var num = parseInt(praise_txt.text());
-            if (praise_img.attr("src") == ("../uploadimgs/yizan.png")) {
-                $(this).html("<img src='../uploadimgs/zan.png' id='praise-img' class='animation' />");
+            if (praise_img.attr("src") == ("../carouselimgs/yizan.png")) {
+                $(this).html("<img src='../carouselimgs/zan.png' id='praise-img' class='animation' />");
                 praise_txt.removeClass("hover");
                 text_box.show().html("<em class='add-animation'>+1</em>");
                 $(".add-animation").removeClass("hover");
@@ -90,7 +90,7 @@
                     }
                 });
             } else {
-                $(this).html("<img src='../uploadimgs/yizan.png' id='praise-img' class='animation' />");
+                $(this).html("<img src='../carouselimgs/yizan.png' id='praise-img' class='animation' />");
                 praise_txt.addClass("hover");
                 text_box.show().html("<em class='add-animation'>-1</em>");
                 $(".add-animation").addClass("hover");
@@ -257,7 +257,7 @@
                     var min = d.getMinutes();
                     var sed = d.getSeconds();
                     opt += "<br/><legend></legend><p id='p1' class='message'>" + res[i].content + "</p>" +
-                        "<span align='right' class='meta'><a href='/modify/getperinfo?perid=" + res[i].pubid + "'>" + res[i].nickname + "</a> " +
+                        "<span align='right' class='meta'><a href='../modify/getperinfo?perid=" + res[i].pubid + "'>" + res[i].nickname + "</a> " +
                         "<em>| </em> <span>" + year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sed + "</span> </span>";
                 }
                 $("#a" + id).html(opt);
@@ -367,7 +367,7 @@
     <br/><br/>
     <!--点赞-->
     <div class="praise">
-        <span id="praise"><img src="../uploadimgs/yizan.png" id="praise-img" class="animation"></span>
+        <span id="praise"><img src="../carouselimgs/yizan.png" id="praise-img" class="animation"></span>
         <span id="praise-txt" class="hover" th:text="${pagelist[0].zan}">777</span>
         <!--<span id="add-num" style="display: inline;"><em class="add-animation hover">+1</em></span>-->
     </div>
@@ -420,7 +420,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <span th:align="right" class="meta"><a th:href="'/modify/getperinfo?perid='+${listc.pubid}"
+                <span th:align="right" class="meta"><a th:href="'../modify/getperinfo?perid='+${listc.pubid}"
                                                        th:text="${listc.nickname}"></a> <em>| </em> <span
                         th:utext="${#strings.substring(listc.pubtime,0,19)}"></span> </span>
                 <!--评论回复-->
