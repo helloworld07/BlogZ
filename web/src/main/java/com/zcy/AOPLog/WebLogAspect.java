@@ -77,7 +77,7 @@ public class WebLogAspect {
         String args = list.toString();
         //1入库标准定了500，2确实没必要存入过多信息
         if(args.length()>490){
-            args.substring(0,450);
+            args = args.substring(0, 450);
         }
         //入库
         LogInfo l = new LogInfo();
